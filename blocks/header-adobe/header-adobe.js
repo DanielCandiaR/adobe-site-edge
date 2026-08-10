@@ -1,4 +1,4 @@
-/* export default function decorate(block) {
+export default function decorate(block) {
   block.innerHTML = `
     <div class="header-adobe-content">
 
@@ -39,9 +39,4 @@
   dropdownButton.addEventListener("click", () => {
     dropdownMenu.classList.toggle("is-open");
   });
-}
- */
-
-export default function decorate(block) {
-  block.textContent = "HEADER ADOBE FUNCIONANDO";
 }
