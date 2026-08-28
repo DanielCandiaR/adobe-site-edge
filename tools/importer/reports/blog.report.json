@@ -1,0 +1,12 @@
+{
+  "status": "success",
+  "url": "http://adobe.puntos.net.s3-website-us-east-1.amazonaws.com/blog",
+  "path": "blog",
+  "timestamp": "2026-08-25T23:56:14.319Z",
+  "title": "Ecosistema Adobe dentro de Puntos.net",
+  "template": "blog-listing",
+  "blocks": [
+    "hero-banner",
+    "blog-list"
+  ]
+}

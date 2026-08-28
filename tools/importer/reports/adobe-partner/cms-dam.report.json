@@ -1,0 +1,24 @@
+{
+  "status": "success",
+  "url": "http://adobe.puntos.net.s3-website-us-east-1.amazonaws.com/adobe-partner/cms-dam",
+  "path": "adobe-partner/cms-dam",
+  "timestamp": "2026-08-25T23:55:35.411Z",
+  "title": "Ecosistema Adobe dentro de Puntos.net",
+  "template": "adobe-partner-landing",
+  "blocks": [
+    "hero-partner",
+    "cards-benefits",
+    "cards-benefits",
+    "cards-benefits",
+    "cards-benefits",
+    "cards-benefits",
+    "cards-benefits",
+    "cards-solution",
+    "cards-solution",
+    "cards-solution",
+    "cards-solution",
+    "cards-solution",
+    "cards-solution",
+    "cards-solution"
+  ]
+}

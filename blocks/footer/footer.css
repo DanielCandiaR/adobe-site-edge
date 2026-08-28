@@ -1,20 +1,208 @@
-footer {
-  background-color: var(--light-color);
-  font-size: var(--body-font-size-xs);
+/* Puntos.net footer — replicates the source React/Ant Design footer */
+/* stylelint-disable no-descending-specificity */
+:root {
+  --pn-primary-deep: #001a32;
+  --pn-border: #2d3e5a;
+  --pn-bright-blue: #009ace;
+  --pn-primary-blue: #005eb8;
+  --pn-white: #fff;
 }
 
+footer {
+  background-color: var(--pn-primary-deep);
+  border-top: 2px solid var(--pn-border);
+  color: var(--pn-white);
+  font-family: var(--body-font-family);
+}
+
+/* container — replicates Ant Design <Row gutter={[48,48]}>: a wrapping flex
+   row with a 48px gutter (both axes). Column widths use the Ant 24-col ratios. */
 footer .footer > div {
-  margin: auto;
-  max-width: 1200px;
-  padding: 40px 24px 24px;
+  box-sizing: border-box;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 80px 24px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 48px;
+}
+
+footer .footer > div > .section {
+  box-sizing: border-box;
+  margin: 0;
 }
 
 footer .footer p {
   margin: 0;
 }
 
-@media (width >= 900px) {
-  footer .footer > div {
-    padding: 40px 32px 24px;
+/* ---- responsive column widths (Ant 24-col grid, 48px gutter) ----
+   xs (<768px): brand 24 (100%), expertise/company 12 (50%), adobe 24 (100%) */
+footer .footer .footer-brand {
+  flex: 0 0 100%;
+  max-width: 100%;
+}
+
+footer .footer .footer-menu {
+  flex: 0 0 calc(50% - 24px);
+  max-width: calc(50% - 24px);
+}
+
+footer .footer .footer-partner {
+  flex: 0 0 100%;
+  max-width: 100%;
+}
+
+/* ---- inline SVG icons ---- */
+footer .footer .pn-icon {
+  display: inline-block;
+  line-height: 0;
+  vertical-align: -0.15em;
+}
+
+/* ---- brand column ---- */
+footer .footer .footer-brand .default-content-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+footer .footer .footer-logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+footer .footer .footer-logo-icon {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--pn-white);
+  font-size: 16px;
+}
+
+footer .footer .footer-logo-text {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--pn-white);
+}
+
+footer .footer .footer-description {
+  font-size: 12px;
+  line-height: 1.7;
+  color: var(--pn-white);
+  max-width: 320px;
+}
+
+footer .footer .footer-socials {
+  display: flex;
+  gap: 16px;
+}
+
+footer .footer .footer-socials a {
+  font-size: 22px;
+  color: var(--pn-bright-blue);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+footer .footer .footer-socials a:hover {
+  color: var(--pn-white);
+}
+
+/* ---- menu columns (Experiencia / Empresa) ---- */
+footer .footer .footer-menu h5 {
+  margin: 0 0 32px;
+  color: var(--pn-white);
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+}
+
+footer .footer .footer-menu ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+footer .footer .footer-menu ul li a {
+  color: var(--pn-bright-blue);
+  font-size: 12px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+footer .footer .footer-menu ul li a:hover {
+  color: var(--pn-white);
+}
+
+/* ---- Adobe partner column (always right-aligned, like the source) ---- */
+footer .footer .footer-partner .default-content-wrapper {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-end;
+  text-align: right;
+}
+
+footer .footer .footer-partner img {
+  width: 56px;
+  height: auto;
+}
+
+footer .footer .footer-partner-label {
+  margin-top: 12px;
+  color: var(--pn-white);
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+footer .footer .footer-partner-copyright {
+  margin-top: 80px;
+  color: var(--pn-white);
+  font-size: 9px;
+  opacity: 0.3;
+}
+
+/* ---- tablet (md, 768–991px): brand + expertise + company at 8/8/8 (≈33%
+   each) on one row, adobe drops to full width below ---- */
+@media (width >= 768px) {
+  footer .footer .footer-brand,
+  footer .footer .footer-menu {
+    flex: 0 0 calc(33.333% - 32px);
+    max-width: calc(33.333% - 32px);
+  }
+
+  footer .footer .footer-partner {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+}
+
+/* ---- desktop (lg, ≥992px): all four on one row at Ant 8/5/5/6 ---- */
+@media (width >= 992px) {
+  footer .footer .footer-brand {
+    flex: 0 0 calc(8 / 24 * 100% - 36px);
+    max-width: calc(8 / 24 * 100% - 36px);
+  }
+
+  footer .footer .footer-menu {
+    flex: 0 0 calc(5 / 24 * 100% - 36px);
+    max-width: calc(5 / 24 * 100% - 36px);
+  }
+
+  footer .footer .footer-partner {
+    flex: 0 0 calc(6 / 24 * 100% - 36px);
+    max-width: calc(6 / 24 * 100% - 36px);
   }
 }

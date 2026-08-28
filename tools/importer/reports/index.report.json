@@ -1,0 +1,13 @@
+{
+  "status": "success",
+  "url": "http://adobe.puntos.net.s3-website-us-east-1.amazonaws.com/",
+  "path": "index",
+  "timestamp": "2026-08-26T00:00:32.615Z",
+  "title": "Ecosistema Adobe dentro de Puntos.net",
+  "template": "home",
+  "blocks": [
+    "hero-partner",
+    "cards-stats",
+    "cards-product"
+  ]
+}

@@ -19,9 +19,32 @@
   --link-color: #3b63fb;
   --link-hover-color: #1d3ecf;
 
+  /* Puntos Net brand palette */
+  --pn-primary: #003b5c;
+  --pn-primary-deep: #001a32;
+  --pn-secondary: #007680;
+  --pn-tertiary: #71b2c9;
+  --pn-primary-blue: #005eb8;
+  --pn-bright-blue: #009ace;
+  --pn-accent: #ffbf3f;
+  --pn-red: #ef4444;
+  --pn-red-2: #dc2626;
+  --pn-cyan: #06b6d4;
+
+  /* backgrounds */
+  --pn-bg: #001a32;
+  --pn-bg-2: #032141;
+
+  /* text */
+  --pn-text: #cbd5e1;
+
+  /* borders */
+  --pn-border: #2d3e5a;
+  --pn-border-soft: rgb(255 255 255 / 5%);
+
   /* fonts */
-  --body-font-family: roboto, roboto-fallback, sans-serif;
-  --heading-font-family: roboto-condensed, roboto-condensed-fallback, sans-serif;
+  --body-font-family: 'Avenir Next', avenir-next-fallback, inter, sans-serif;
+  --heading-font-family: 'Avenir Next', avenir-next-fallback, inter, sans-serif;
 
   /* body sizes */
   --body-font-size-m: 22px;
@@ -40,20 +63,14 @@
   --nav-height: 64px;
 }
 
-/* fallback fonts */
+/* fallback font — metric-adjusted to reduce CLS while Avenir Next loads */
 @font-face {
-  font-family: roboto-condensed-fallback;
-  size-adjust: 88.82%;
+  font-family: avenir-next-fallback;
+  size-adjust: 100%;
   src: local('Arial');
 }
 
-@font-face {
-  font-family: roboto-fallback;
-  size-adjust: 99.529%;
-  src: local('Arial');
-}
-
-@media (width >= 900px) {
+@media (width >= 768px) {
   :root {
     /* body sizes */
     --body-font-size-m: 18px;
@@ -310,7 +327,7 @@ main > .section:first-of-type {
   margin-top: 0;
 }
 
-@media (width >= 900px) {
+@media (width >= 768px) {
   main > .section > div {
     padding: 0 32px;
   }
@@ -322,4 +339,147 @@ main .section.highlight {
   background-color: var(--light-color);
   margin: 0;
   padding: 40px 0;
+}
+
+/* ==========================================================
+   Puntos Net section backgrounds + borders (Section Metadata)
+   Authors combine any background style with an optional border in the
+   section's metadata "Style" (space-separated), e.g. "bg-pn-second, border-pn-b-2".
+   Each background section becomes a full-bleed dark band; content stays
+   constrained by the inner .{block}-wrapper / > div (max-width 1280).
+   ========================================================== */
+
+/* dark background bands span edge-to-edge with vertical rhythm */
+main .section.bg-pn,
+main .section.bg-pn-dot,
+main .section.bg-pn-second,
+main .section.bg-pn-second-dot,
+main .section.bg-pn-grad,
+main .section.bg-pn-grad-dot {
+  margin: 0;
+  padding: 96px 0;
+  color: var(--pn-text);
+}
+
+/* keep the inner content width consistent with the source (1280) */
+main .section.bg-pn > div,
+main .section.bg-pn-dot > div,
+main .section.bg-pn-second > div,
+main .section.bg-pn-second-dot > div,
+main .section.bg-pn-grad > div,
+main .section.bg-pn-grad-dot > div {
+  max-width: 1280px;
+}
+
+/* solid navy */
+main .section.bg-pn {
+  background: var(--pn-bg);
+}
+
+/* secondary navy */
+main .section.bg-pn-second {
+  background: var(--pn-bg-2);
+}
+
+/* navy + dotted grid overlay */
+main .section.bg-pn-dot {
+  background-color: var(--pn-bg);
+  background-image: radial-gradient(circle at 2px 2px, rgb(255 255 255 / 10%) 1px, transparent 0);
+  background-size: 40px 40px;
+}
+
+main .section.bg-pn-second-dot {
+  background-color: var(--pn-bg-2);
+  background-image: radial-gradient(circle at 2px 2px, rgb(255 255 255 / 10%) 1px, transparent 0);
+  background-size: 40px 40px;
+}
+
+/* navy + soft radial glows (brand gradient) */
+main .section.bg-pn-grad,
+main .section.bg-pn-grad-dot {
+  position: relative;
+  overflow: hidden;
+  background-color: var(--pn-primary-deep);
+  background-image:
+    radial-gradient(circle at top left, rgb(113 178 201 / 15%), transparent 35%),
+    radial-gradient(circle at bottom right, rgb(0 118 128 / 20%), transparent 80%),
+    radial-gradient(circle at center, rgb(0 154 206 / 10%), transparent 45%);
+}
+
+/* the dotted variant adds the grid on top of the glows */
+main .section.bg-pn-grad-dot {
+  background-image:
+    radial-gradient(circle at 2px 2px, rgb(255 255 255 / 10%) 1px, transparent 0),
+    radial-gradient(circle at top left, rgb(113 178 201 / 15%), transparent 35%),
+    radial-gradient(circle at bottom right, rgb(0 118 128 / 20%), transparent 80%),
+    radial-gradient(circle at center, rgb(0 154 206 / 10%), transparent 45%);
+  background-size: 40px 40px, auto, auto, auto;
+}
+
+/* dark sections invert default text/heading/link colors */
+main .section.bg-pn :is(h1, h2, h3, h4, h5, h6),
+main .section.bg-pn-dot :is(h1, h2, h3, h4, h5, h6),
+main .section.bg-pn-second :is(h1, h2, h3, h4, h5, h6),
+main .section.bg-pn-second-dot :is(h1, h2, h3, h4, h5, h6),
+main .section.bg-pn-grad :is(h1, h2, h3, h4, h5, h6),
+main .section.bg-pn-grad-dot :is(h1, h2, h3, h4, h5, h6) {
+  color: #fff;
+}
+
+/* ---- section borders (Section Metadata; combinable with any background) ---- */
+main .section.border-pn-b { border-bottom: 1px solid var(--pn-border); }
+main .section.border-pn-b-2 { border-bottom: 2px solid var(--pn-border); }
+main .section.border-pn-b-3 { border-bottom: 3px solid var(--pn-border); }
+main .section.border-pn-t { border-top: 1px solid var(--pn-border); }
+main .section.border-pn-t-2 { border-top: 2px solid var(--pn-border); }
+main .section.border-pn-b-soft { border-bottom: 1px solid var(--pn-border-soft); }
+main .section.border-pn-b-2-soft { border-bottom: 2px solid var(--pn-border-soft); }
+
+/* stylelint-disable no-descending-specificity */
+
+/* ---- shared check-list styling ----
+   Any default-content <ul> inside a dark PN section (or an explicit .pn-list)
+   gets the red check vineta, matching the source TextListComponent. The check
+   colour is configurable via --pn-check-color. Decorated block lists
+   (.container-list, nav lists, card grids) are excluded. */
+main .section:is(.bg-pn, .bg-pn-dot, .bg-pn-second, .bg-pn-second-dot, .bg-pn-grad, .bg-pn-grad-dot)
+  .default-content-wrapper ul:not(.container-list),
+main .pn-list ul,
+main ul.pn-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+main .section:is(.bg-pn, .bg-pn-dot, .bg-pn-second, .bg-pn-second-dot, .bg-pn-grad, .bg-pn-grad-dot)
+  .default-content-wrapper ul:not(.container-list) > li,
+main .pn-list ul > li,
+main ul.pn-list > li {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 0;
+  color: var(--pn-text);
+  line-height: 1.4;
+}
+
+main .section:is(.bg-pn, .bg-pn-dot, .bg-pn-second, .bg-pn-second-dot, .bg-pn-grad, .bg-pn-grad-dot)
+  .default-content-wrapper ul:not(.container-list) > li::before,
+main .pn-list ul > li::before,
+main ul.pn-list > li::before {
+  content: '';
+  flex-shrink: 0;
+  width: 22px;
+  height: 22px;
+  margin-top: 1px;
+  border-radius: 50%;
+  background-color: var(--pn-check-color, var(--pn-red));
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="64 64 896 896" fill="white"><path d="M912 190h-69.9c-9.8 0-19.1 4.5-25.1 12.2L404.7 724.5 207 474a32 32 0 00-25.1-12.2H112c-6.7 0-10.4 7.7-6.3 12.9l273.9 347c12.8 16.2 37.4 16.2 50.3 0l488.4-618.9c4.1-5.1.4-12.8-6.3-12.8z"/></svg>');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 12px 12px;
 }

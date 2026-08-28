@@ -1,0 +1,2 @@
+http://adobe.puntos.net.s3-website-us-east-1.amazonaws.com/nosotros/quienes-somos
+http://adobe.puntos.net.s3-website-us-east-1.amazonaws.com/nosotros/storytelling

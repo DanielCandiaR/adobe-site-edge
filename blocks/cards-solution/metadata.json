@@ -1,0 +1,39 @@
+{
+  "variantName": "cards-solution",
+  "baseBlock": "cards",
+  "version": "1.0.0",
+  "created": "2026-08-25T23:08:00.000Z",
+  "sourceContext": {
+    "originUrl": "http://adobe.puntos.net.s3-website-us-east-1.amazonaws.com/adobe-partner/cms-dam",
+    "originPage": "Adobe Partner landing 'Cómo Puntos Net + Adobe resuelve esto' product-solution grid",
+    "blockPosition": "bottom"
+  },
+  "visualCharacteristics": {
+    "colorScheme": "dark",
+    "density": "spacious",
+    "purpose": "product",
+    "imagePattern": "large"
+  },
+  "contentPattern": {
+    "structure": "product logo image + title + subtitle + description per card",
+    "buttonCount": 0,
+    "imageCount": 7
+  },
+  "reuseGuidance": {
+    "suitableFor": [
+      "product / solution card grids with logo image, title, subtitle and description",
+      "dark-themed service or capability card grids with imagery",
+      "'how we solve this' solution showcases"
+    ],
+    "notSuitableFor": [
+      "icon + label only tiles (use cards-product)",
+      "numeric stat counters (use cards-stats)",
+      "text-only benefit checklists (use cards-benefits)"
+    ]
+  },
+  "usage": {
+    "pagesUsing": ["/adobe-partner/cms-dam"],
+    "reuseCount": 1,
+    "lastUsed": "2026-08-25T23:08:00.000Z"
+  }
+}

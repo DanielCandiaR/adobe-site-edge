@@ -1,0 +1,6 @@
+http://adobe.puntos.net.s3-website-us-east-1.amazonaws.com/adobe-partner/cms-dam
+http://adobe.puntos.net.s3-website-us-east-1.amazonaws.com/adobe-partner/personalizacion
+http://adobe.puntos.net.s3-website-us-east-1.amazonaws.com/adobe-partner/datos-accionables
+http://adobe.puntos.net.s3-website-us-east-1.amazonaws.com/adobe-partner/arquitectura-headless
+http://adobe.puntos.net.s3-website-us-east-1.amazonaws.com/adobe-partner/mail-marketing
+http://adobe.puntos.net.s3-website-us-east-1.amazonaws.com/adobe-partner/automatizacion-omnicanal

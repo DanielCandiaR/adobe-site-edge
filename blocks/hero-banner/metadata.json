@@ -1,0 +1,38 @@
+{
+  "variantName": "hero-banner",
+  "baseBlock": "hero",
+  "version": "1.0.0",
+  "created": "2026-08-25T23:15:00.000Z",
+  "sourceContext": {
+    "originUrl": "http://adobe.puntos.net.s3-website-us-east-1.amazonaws.com/blog",
+    "originPage": "blog listing banner (BLOG)",
+    "blockPosition": "top"
+  },
+  "visualCharacteristics": {
+    "colorScheme": "dark",
+    "density": "spacious",
+    "purpose": "banner-hero",
+    "imagePattern": "large"
+  },
+  "contentPattern": {
+    "structure": "full-bleed background image + gradient overlay + single centered heading",
+    "buttonCount": 0,
+    "imageCount": 1
+  },
+  "reuseGuidance": {
+    "suitableFor": [
+      "simple full-width banner headers with a single centered title",
+      "blog/listing/section landing banners over a background photo",
+      "pages needing an image banner with no CTAs or checklist"
+    ],
+    "notSuitableFor": [
+      "partner/solution heroes with highlighted headline, checklist and badge (use hero-partner)",
+      "text-only light-background heroes with body copy and buttons"
+    ]
+  },
+  "usage": {
+    "pagesUsing": ["/blog"],
+    "reuseCount": 1,
+    "lastUsed": "2026-08-25T23:15:00.000Z"
+  }
+}

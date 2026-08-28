@@ -1,0 +1,257 @@
+{
+  "metadata": {
+    "projectType": "doc"
+  },
+  "templates": [
+    {
+      "name": "home",
+      "urls": [
+        "http://adobe.puntos.net.s3-website-us-east-1.amazonaws.com/"
+      ],
+      "coverageGaps": [],
+      "description": "Homepage: hero with headline, feature check-list and Adobe Platinum partner badge; animated stat counters (clients, years); grid of 6 Adobe product tiles with icons.",
+      "blocks": [
+        {
+          "name": "header",
+          "instances": [
+            "header.header-pn"
+          ]
+        },
+        {
+          "name": "hero-partner",
+          "instances": [
+            ".content-left .content-info"
+          ]
+        },
+        {
+          "name": "cards-stats",
+          "instances": [
+            ".content-left > .ant-space > .ant-space-item:nth-of-type(2)"
+          ]
+        },
+        {
+          "name": "cards-product",
+          "instances": [
+            ".content-right"
+          ]
+        },
+        {
+          "name": "footer",
+          "instances": [
+            "footer.footer-pn"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "adobe-partner-landing",
+      "urls": [
+        "http://adobe.puntos.net.s3-website-us-east-1.amazonaws.com/adobe-partner/cms-dam",
+        "http://adobe.puntos.net.s3-website-us-east-1.amazonaws.com/adobe-partner/arquitectura-headless"
+      ],
+      "coverageGaps": [],
+      "description": "Adobe Partner solution landing: hero with badges and check-list, multi-column feature/benefit sections with check lists, and a grid of Adobe product solution cards. NOTE: only cms-dam and arquitectura-headless exist as real pages on the source; the other 4 Adobe Partner dropdown links (personalizacion, datos-accionables, mail-marketing, automatizacion-omnicanal) return a 404 'Página no encontrada' page on the source site and were excluded from import.",
+      "blocks": [
+        {
+          "name": "header",
+          "instances": [
+            "header.header-pn"
+          ]
+        },
+        {
+          "name": "hero-partner",
+          "instances": [
+            ".hero-pn.hero-left"
+          ]
+        },
+        {
+          "name": "cards-benefits",
+          "instances": [
+            ".bg-pn-second.py-13 .ant-col.ant-col-lg-12"
+          ]
+        },
+        {
+          "name": "cards-solution",
+          "instances": [
+            ".bg-pn.py-13 .container-tools .ant-col"
+          ]
+        },
+        {
+          "name": "footer",
+          "instances": [
+            "footer.footer-pn"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "blog-listing",
+      "urls": [
+        "http://adobe.puntos.net.s3-website-us-east-1.amazonaws.com/blog"
+      ],
+      "coverageGaps": [],
+      "description": "Blog listing: banner hero, interactive block with search box, tag filter tabs, responsive grid of post cards (image, title, summary, tags, author, date) and pagination.",
+      "blocks": [
+        {
+          "name": "header",
+          "instances": [
+            "header.header-pn"
+          ]
+        },
+        {
+          "name": "hero-banner",
+          "instances": [
+            ".border-pn-b-2 .hero-pn.hero-full"
+          ]
+        },
+        {
+          "name": "blog-list",
+          "instances": [
+            ".bg-pn-dot.py-13"
+          ]
+        },
+        {
+          "name": "footer",
+          "instances": [
+            "footer.footer-pn"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "blog-detail",
+      "urls": [
+        "http://adobe.puntos.net.s3-website-us-east-1.amazonaws.com/blog/mi-primer-post"
+      ],
+      "coverageGaps": [],
+      "description": "Blog article detail: post header (title, date, author, tags), hero image, and rich-text article body with headings, paragraphs, tables, ordered lists and a CTA button.",
+      "blocks": [
+        {
+          "name": "header",
+          "instances": [
+            "header.header-pn"
+          ]
+        },
+        {
+          "name": "footer",
+          "instances": [
+            "footer.footer-pn"
+          ]
+        }
+      ],
+      "sections": [
+        {
+          "id": "post-header",
+          "name": "Post Header",
+          "selector": ".blogdetail-pn .header-post",
+          "style": "dark",
+          "blocks": [],
+          "defaultContent": [
+            ".blogdetail-pn .header-post .title",
+            ".blogdetail-pn .header-post .date",
+            ".blogdetail-pn .header-post .blog-tags-container"
+          ]
+        },
+        {
+          "id": "hero-image",
+          "name": "Hero Image",
+          "selector": ".blogdetail-pn .content-img-post",
+          "style": "dark",
+          "blocks": [],
+          "defaultContent": [
+            ".blogdetail-pn .content-img-post"
+          ]
+        },
+        {
+          "id": "article-body",
+          "name": "Article Body",
+          "selector": ".blogdetail-pn .content-post",
+          "style": "dark",
+          "blocks": [],
+          "defaultContent": [
+            ".blogdetail-pn .content-post .description",
+            ".blogdetail-pn .content-post > div:nth-of-type(2)"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "institutional",
+      "urls": [
+        "http://adobe.puntos.net.s3-website-us-east-1.amazonaws.com/nosotros/quienes-somos",
+        "http://adobe.puntos.net.s3-website-us-east-1.amazonaws.com/nosotros/storytelling"
+      ],
+      "coverageGaps": [],
+      "description": "Institutional/about page: title hero and multiple alternating text+image content sections, some with check lists.",
+      "blocks": [
+        {
+          "name": "header",
+          "instances": [
+            "header.header-pn"
+          ]
+        },
+        {
+          "name": "hero-title",
+          "instances": [
+            ".wwa-pn > .border-pn-b-2:nth-of-type(1)"
+          ]
+        },
+        {
+          "name": "columns-media",
+          "instances": [
+            ".wwa-pn .ant-row.container-wwa"
+          ]
+        },
+        {
+          "name": "footer",
+          "instances": [
+            "footer.footer-pn"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "contacto",
+      "urls": [
+        "http://adobe.puntos.net.s3-website-us-east-1.amazonaws.com/contacto"
+      ],
+      "coverageGaps": [],
+      "description": "Contact page: heading intro and a multi-field contact form (name, email, company, phone, subject select, comment) with submit button - to be implemented as AEM Forms.",
+      "blocks": [
+        {
+          "name": "header",
+          "instances": [
+            "header.header-pn"
+          ]
+        },
+        {
+          "name": "form",
+          "instances": [
+            ".ant-form.form-pn"
+          ]
+        },
+        {
+          "name": "footer",
+          "instances": [
+            "footer.footer-pn"
+          ]
+        }
+      ],
+      "sections": [
+        {
+          "id": "contact",
+          "name": "Contact",
+          "selector": "main.layout-content",
+          "style": "dark",
+          "blocks": [
+            "form"
+          ],
+          "defaultContent": [
+            "main.layout-content .title",
+            "main.layout-content .subtitle"
+          ]
+        }
+      ]
+    }
+  ]
+}

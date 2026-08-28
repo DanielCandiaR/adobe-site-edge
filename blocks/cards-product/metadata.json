@@ -1,0 +1,38 @@
+{
+  "variantName": "cards-product",
+  "baseBlock": "cards",
+  "version": "1.0.0",
+  "created": "2026-08-25T22:58:00.000Z",
+  "sourceContext": {
+    "originUrl": "http://adobe.puntos.net.s3-website-us-east-1.amazonaws.com/",
+    "originPage": "homepage Adobe product ecosystem grid (Ecosistema Adobe / Puntos.net)",
+    "blockPosition": "top"
+  },
+  "visualCharacteristics": {
+    "colorScheme": "dark",
+    "density": "compact",
+    "purpose": "product",
+    "imagePattern": "icon"
+  },
+  "contentPattern": {
+    "structure": "icon + uppercase label per tile",
+    "buttonCount": 0,
+    "imageCount": 6
+  },
+  "reuseGuidance": {
+    "suitableFor": [
+      "product/solution icon grids",
+      "capability or service tiles with icon + short label",
+      "dark-themed feature grids"
+    ],
+    "notSuitableFor": [
+      "cards with long descriptions or CTAs",
+      "image-heavy article cards"
+    ]
+  },
+  "usage": {
+    "pagesUsing": ["/index"],
+    "reuseCount": 1,
+    "lastUsed": "2026-08-25T22:58:00.000Z"
+  }
+}

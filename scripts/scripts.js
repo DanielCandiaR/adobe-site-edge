@@ -146,11 +146,48 @@ function decorateButtons(main) {
  * Decorates the main element.
  * @param {Element} main The main element
  */
+/**
+ * Applies "Section Metadata" blocks as classes/styles on their section.
+ * Authors add a "Section Metadata" block with a "Style" row (comma or
+ * space separated, e.g. "bg-pn-second, border-pn-b-2") to control the
+ * section background and optional border. The boilerplate aem.js does not
+ * do this, so we handle it here.
+ * @param {Element} main The container element
+ */
+function decorateSectionMetadata(main) {
+  main.querySelectorAll(':scope > .section .section-metadata').forEach((meta) => {
+    const section = meta.closest('.section');
+    [...meta.children].forEach((row) => {
+      const cols = [...row.children];
+      if (cols.length < 2) return;
+      const key = cols[0].textContent.trim().toLowerCase();
+      const val = cols[1].textContent.trim();
+      if (key === 'style' && val) {
+        val.split(/[,\s]+/).filter(Boolean).forEach((cls) => {
+          section.classList.add(cls
+            .toLowerCase()
+            .replace(/[^0-9a-z]+/g, '-')
+            .replace(/^-+|-+$/g, ''));
+        });
+      } else if (key) {
+        section.dataset[key.replace(/-([a-z])/g, (g) => g[1].toUpperCase())] = val;
+      }
+    });
+    const wrapper = meta.parentElement;
+    meta.remove();
+    // decorateSections wraps the metadata in its own div; drop it if now empty
+    if (wrapper && wrapper !== section && !wrapper.childElementCount) {
+      wrapper.remove();
+    }
+  });
+}
+
 // eslint-disable-next-line import/prefer-default-export
 export function decorateMain(main) {
   decorateIcons(main);
   buildAutoBlocks(main);
   decorateSections(main);
+  decorateSectionMetadata(main);
   decorateBlocks(main);
   decorateButtons(main);
 }

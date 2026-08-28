@@ -1,0 +1,38 @@
+{
+  "variantName": "columns-media",
+  "baseBlock": "columns",
+  "version": "1.0.0",
+  "created": "2026-08-25T23:30:00.000Z",
+  "sourceContext": {
+    "originUrl": "http://adobe.puntos.net.s3-website-us-east-1.amazonaws.com/nosotros/quienes-somos",
+    "originPage": "institutional / about page alternating image+text content sections",
+    "blockPosition": "middle"
+  },
+  "visualCharacteristics": {
+    "colorScheme": "dark",
+    "density": "spacious",
+    "purpose": "media-text",
+    "imagePattern": "large"
+  },
+  "contentPattern": {
+    "structure": "two columns - illustration image beside a text block (paragraphs, optionally a check-list); image side alternates per section",
+    "buttonCount": 0,
+    "imageCount": 1
+  },
+  "reuseGuidance": {
+    "suitableFor": [
+      "alternating image + text informational sections",
+      "side-by-side illustration and body copy layouts",
+      "text columns that may include a bulleted/check-list"
+    ],
+    "notSuitableFor": [
+      "grids of distinct repeatable items with uniform styling (use cards)",
+      "stacked vertical content where image sits below text (use default content)"
+    ]
+  },
+  "usage": {
+    "pagesUsing": ["/nosotros/quienes-somos"],
+    "reuseCount": 4,
+    "lastUsed": "2026-08-25T23:30:00.000Z"
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "status": "success",
+  "url": "http://adobe.puntos.net.s3-website-us-east-1.amazonaws.com/blog/mi-primer-post",
+  "path": "blog/mi-primer-post",
+  "timestamp": "2026-08-25T23:56:20.828Z",
+  "title": "Titulo 1",
+  "template": "blog-detail",
+  "blocks": []
+}

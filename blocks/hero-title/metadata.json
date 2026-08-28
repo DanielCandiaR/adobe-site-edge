@@ -1,0 +1,38 @@
+{
+  "variantName": "hero-title",
+  "baseBlock": "hero",
+  "version": "1.0.0",
+  "created": "2026-08-25T23:30:00.000Z",
+  "sourceContext": {
+    "originUrl": "http://adobe.puntos.net.s3-website-us-east-1.amazonaws.com/nosotros/quienes-somos",
+    "originPage": "institutional / about page title hero (QUIENES SOMOS)",
+    "blockPosition": "top"
+  },
+  "visualCharacteristics": {
+    "colorScheme": "dark",
+    "density": "spacious",
+    "purpose": "title-hero",
+    "imagePattern": "noimg"
+  },
+  "contentPattern": {
+    "structure": "centered title + centered highlighted subtitle",
+    "buttonCount": 0,
+    "imageCount": 0
+  },
+  "reuseGuidance": {
+    "suitableFor": [
+      "text-only page title banners on a dark/gradient background",
+      "institutional/about/section intro headers with a title and short subtitle",
+      "top-of-page heroes with no background photo and no CTA"
+    ],
+    "notSuitableFor": [
+      "heroes with a full-bleed background photo (use hero-banner)",
+      "partner/solution heroes with checklist and partner badge (use hero-partner)"
+    ]
+  },
+  "usage": {
+    "pagesUsing": ["/nosotros/quienes-somos"],
+    "reuseCount": 1,
+    "lastUsed": "2026-08-25T23:30:00.000Z"
+  }
+}

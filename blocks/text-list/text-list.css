@@ -1,0 +1,136 @@
+/* text-list — reusable list component (mirrors the source TextListComponent).
+   Default = check-vineta list; `card` variant renders each item as a card. */
+
+/* stylelint-disable no-descending-specificity */
+.text-list {
+  /* configurable knobs (author can override on the section) */
+  --items-gap: 10px;
+  --icon-gap: 12px;
+  --content-gap: 4px;
+  --heading-margin: 14px;
+  --vineta-size: 22px;
+  --vineta-color: #fff;
+  --vineta-bg: var(--pn-red, #ef4444);
+  --vineta-border: var(--pn-red, #ef4444);
+  --item-hover-bg: rgb(6 182 212 / 8%);
+  --item-hover-border: rgb(6 182 212 / 30%);
+  --item-hover-shadow: 0 8px 25px rgb(6 182 212 / 30%);
+  --item-hover-title-color: #fff;
+  --item-hover-text-color: var(--pn-text, #cbd5e1);
+
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+/* optional heading (authored as the first row of default content above the block) */
+.text-list .header-text-list {
+  margin-bottom: var(--heading-margin);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.text-list .container-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--items-gap);
+}
+
+.text-list .item-list {
+  display: flex;
+  align-items: center;
+  gap: var(--icon-gap);
+  min-height: 40px;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* card variant */
+.text-list.card .item-list,
+.text-list .item-list.item-card {
+  padding: 20px;
+  background: var(--pn-border-soft, rgb(255 255 255 / 5%));
+  border-color: var(--pn-border-soft, rgb(255 255 255 / 5%));
+}
+
+/* clickable items */
+.text-list .item-list.item-clickable {
+  cursor: pointer;
+}
+
+/* hover effect (card variant is interactive by default) */
+.text-list.card .item-list:hover,
+.text-list .item-list.item-hover:hover {
+  background: var(--item-hover-bg);
+  border-color: var(--item-hover-border);
+  box-shadow: var(--item-hover-shadow);
+}
+
+.text-list.card .item-list:hover .title-content,
+.text-list .item-list.item-hover:hover .title-content {
+  color: var(--item-hover-title-color);
+}
+
+.text-list.card .item-list:hover .text-content,
+.text-list .item-list.item-hover:hover .text-content {
+  color: var(--item-hover-text-color);
+}
+
+/* vineta — red check circle */
+.text-list .icon-vineta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-sizing: border-box;
+  width: var(--vineta-size);
+  height: var(--vineta-size);
+  border: 1px solid var(--vineta-border);
+  border-radius: 50%;
+  background: var(--vineta-bg);
+  color: var(--vineta-color);
+  font-size: calc(var(--vineta-size) * 0.5);
+  line-height: 1;
+}
+
+.text-list .icon-vineta svg,
+.text-list .icon-vineta img {
+  width: 1em;
+  height: 1em;
+  object-fit: contain;
+  display: block;
+}
+
+.text-list .container-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--content-gap);
+  flex: 1;
+  min-height: 40px;
+}
+
+.text-list .title-content {
+  margin: 0;
+  color: var(--pn-title-color, #fff);
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.text-list .text-content {
+  margin: 0;
+  color: var(--pn-text, #cbd5e1);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+.text-list .title-content p,
+.text-list .text-content p {
+  margin: 0;
+}

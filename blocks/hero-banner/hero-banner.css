@@ -1,0 +1,105 @@
+/* hero-banner — "hero-full" variant of the Puntos.net hero component:
+   full-bleed background image with a bottom-fading dark overlay and
+   centered title. */
+.hero-banner {
+  --hero-bg: #001a32;
+
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  min-height: 700px;
+  background: var(--hero-bg);
+  text-align: center;
+}
+
+/* full-bleed: cancel the section container padding/max-width */
+.hero-banner-container .hero-banner-wrapper {
+  max-width: unset;
+  padding: 0;
+}
+
+/* background image spans the whole hero */
+.hero-banner .hero-bg {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+}
+
+.hero-banner .hero-bg picture,
+.hero-banner .hero-bg img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* dark gradient overlay (fades to the navy background at the bottom) */
+.hero-banner::before {
+  content: '';
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  background: linear-gradient(180deg, rgb(0 26 50 / 10%) 0%, var(--hero-bg) 100%);
+}
+
+.hero-banner.no-image::before {
+  content: none;
+}
+
+/* ---- content ---- */
+.hero-banner .hero-content {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.hero-banner h1 {
+  margin: 0 auto;
+  max-width: 90%;
+  color: #fff;
+  font-size: 40px;
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+.hero-banner h2 {
+  margin: 16px auto 0;
+  max-width: 90%;
+  color: #fff;
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.hero-banner p {
+  margin: 16px auto 0;
+  max-width: 640px;
+  color: #cbd5e1;
+  font-size: 18px;
+  line-height: 1.6;
+}
+
+@media (width >= 768px) {
+  .hero-banner .hero-content {
+    padding: 0 48px;
+  }
+
+  .hero-banner h1 {
+    font-size: 54px;
+    max-width: 70%;
+  }
+
+  .hero-banner h2 {
+    font-size: 28px;
+  }
+
+  .hero-banner p {
+    font-size: 20px;
+  }
+}

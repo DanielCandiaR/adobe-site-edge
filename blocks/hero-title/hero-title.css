@@ -1,0 +1,58 @@
+/* hero-title — "hero-no-bg" variant of the Puntos.net hero component:
+   a centered title block with no background, used as a page intro. */
+.hero-title {
+  --hero-badge-color: #06b6d4;
+  --hero-bg: #001a32;
+
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+  padding: 64px 24px;
+  text-align: center;
+  background: var(--hero-bg);
+}
+
+/* full-bleed: cancel the section container padding/max-width */
+.hero-title-container .hero-title-wrapper {
+  max-width: unset;
+  padding: 0;
+}
+
+.hero-title > div {
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+/* the big title */
+.hero-title h1 {
+  margin: 0 auto;
+  max-width: 70%;
+  color: #fff;
+  font-size: 40px;
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+/* eyebrow label (authored as a paragraph above the heading) */
+.hero-title p {
+  margin: 0 auto 16px;
+  color: var(--hero-badge-color);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+}
+
+@media (width >= 768px) {
+  .hero-title {
+    padding: 80px 48px;
+  }
+
+  .hero-title h1 {
+    font-size: 54px;
+  }
+}

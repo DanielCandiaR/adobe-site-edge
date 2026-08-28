@@ -1,0 +1,42 @@
+{
+  "variantName": "blog-list",
+  "baseBlock": "blog-list",
+  "version": "1.0.0",
+  "created": "2026-08-25T23:15:00.000Z",
+  "sourceContext": {
+    "originUrl": "http://adobe.puntos.net.s3-website-us-east-1.amazonaws.com/blog",
+    "originPage": "blog listing (interactive posts grid)",
+    "blockPosition": "middle"
+  },
+  "visualCharacteristics": {
+    "colorScheme": "dark",
+    "density": "spacious",
+    "purpose": "blog-listing",
+    "imagePattern": "large"
+  },
+  "contentPattern": {
+    "structure": "search + tag-filter tabs + responsive post-card grid + pagination",
+    "buttonCount": 0,
+    "imageCount": 1
+  },
+  "reuseGuidance": {
+    "suitableFor": [
+      "blog/article listing pages with searchable, tag-filterable, paginated post grids",
+      "resource/insight index pages driven by a list of posts"
+    ],
+    "notSuitableFor": [
+      "static non-interactive card grids (use cards)",
+      "single article detail pages (use blog-detail content)"
+    ]
+  },
+  "authoredModel": {
+    "note": "One block row per post. Cell order: image | title | summary | tags (comma-separated) | author | date | link (/blog/{slug}). Interactive search/tag-filter/pagination behavior is added by the block JS at runtime; tag tabs and counts are derived from the authored rows.",
+    "cells": ["image", "title", "summary", "tags", "author", "date", "link"]
+  },
+  "isInteractive": true,
+  "usage": {
+    "pagesUsing": ["/blog"],
+    "reuseCount": 1,
+    "lastUsed": "2026-08-25T23:15:00.000Z"
+  }
+}

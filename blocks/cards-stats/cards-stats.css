@@ -1,0 +1,35 @@
+.cards-stats > ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 24px;
+}
+
+.cards-stats > ul > li {
+  border: 1px solid rgb(255 255 255 / 15%);
+  border-radius: 8px;
+  background-color: rgb(255 255 255 / 4%);
+  padding: 8px;
+}
+
+.cards-stats .cards-stats-card-body {
+  margin: 16px;
+}
+
+.cards-stats .cards-stats-number {
+  margin: 0 0 4px;
+  font-size: 40px;
+  font-weight: 700;
+  line-height: 1;
+  color: #2ea3f2;
+}
+
+.cards-stats .cards-stats-caption {
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-size: 14px;
+  color: #cdd5e0;
+}

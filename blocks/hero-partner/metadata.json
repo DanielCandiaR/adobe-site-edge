@@ -1,0 +1,38 @@
+{
+  "variantName": "hero-partner",
+  "baseBlock": "hero",
+  "version": "1.0.0",
+  "created": "2026-08-25T22:58:00.000Z",
+  "sourceContext": {
+    "originUrl": "http://adobe.puntos.net.s3-website-us-east-1.amazonaws.com/",
+    "originPage": "homepage hero (Ecosistema Adobe / Puntos.net)",
+    "blockPosition": "top"
+  },
+  "visualCharacteristics": {
+    "colorScheme": "dark",
+    "density": "spacious",
+    "purpose": "partner-hero",
+    "imagePattern": "large"
+  },
+  "contentPattern": {
+    "structure": "heading + highlighted span + paragraph + checklist + partner badge",
+    "buttonCount": 0,
+    "imageCount": 1
+  },
+  "reuseGuidance": {
+    "suitableFor": [
+      "dark-themed marketing hero regions",
+      "partner/solution landing intros with a feature check-list",
+      "pages needing a highlighted-headline banner on a dark background"
+    ],
+    "notSuitableFor": [
+      "light-background text-only heroes",
+      "simple blog article headers"
+    ]
+  },
+  "usage": {
+    "pagesUsing": ["/index", "/adobe-partner/cms-dam"],
+    "reuseCount": 2,
+    "lastUsed": "2026-08-25T23:08:00.000Z"
+  }
+}

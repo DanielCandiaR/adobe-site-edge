@@ -1,0 +1,39 @@
+{
+  "variantName": "cards-benefits",
+  "baseBlock": "cards",
+  "version": "1.0.0",
+  "created": "2026-08-25T23:08:00.000Z",
+  "sourceContext": {
+    "originUrl": "http://adobe.puntos.net.s3-website-us-east-1.amazonaws.com/adobe-partner/cms-dam",
+    "originPage": "Adobe Partner landing '¿Por qué elegir Adobe + Puntos Net?' benefit grid",
+    "blockPosition": "middle"
+  },
+  "visualCharacteristics": {
+    "colorScheme": "dark",
+    "density": "spacious",
+    "purpose": "feature",
+    "imagePattern": "noimg"
+  },
+  "contentPattern": {
+    "structure": "sub-heading + paragraph or check-list per card",
+    "buttonCount": 0,
+    "imageCount": 0
+  },
+  "reuseGuidance": {
+    "suitableFor": [
+      "benefit / feature grids with a sub-heading and a bulleted or check list",
+      "dark-themed 2-up capability sections",
+      "'why choose us' style value-proposition grids"
+    ],
+    "notSuitableFor": [
+      "cards with product images or logos",
+      "numeric stat counters",
+      "simple icon + label tiles"
+    ]
+  },
+  "usage": {
+    "pagesUsing": ["/adobe-partner/cms-dam"],
+    "reuseCount": 1,
+    "lastUsed": "2026-08-25T23:08:00.000Z"
+  }
+}

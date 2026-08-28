@@ -1,0 +1,10 @@
+{
+  "type": "doc",
+  "sites": {
+    "adobe-site-edge": {
+      "previewOrg": "danielcandiar",
+      "previewSite": "adobe-site-edge",
+      "libraryUrl": "https://main--sta-boilerplate--aemdemos.aem.page/tools/sidekick/library.json"
+    }
+  }
+}
