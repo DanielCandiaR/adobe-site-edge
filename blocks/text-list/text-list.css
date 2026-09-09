@@ -61,3 +61,21 @@
 .text-list .title-content p {
   margin: 0;
 }
+
+/* ---- numbered variant: number inside a red circle ---- */
+.text-list.numbered {
+  --items-gap: 12px;
+  --icon-gap: 12px;
+}
+
+.text-list.numbered .icon-vineta {
+  box-sizing: border-box;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--check-color);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1;
+}
