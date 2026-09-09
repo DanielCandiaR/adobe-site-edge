@@ -182,6 +182,44 @@ function decorateSectionMetadata(main) {
   });
 }
 
+/**
+ * Marks content list items whose text starts with a number so they render a
+ * red numbered circle instead of the default check (see the shared list rule
+ * in styles.css). Handles both a standalone leading "<p>1</p>" and an inline
+ * "1. " / "1) " prefix. Lists that are part of a decorated block (nav, footer,
+ * cards grid, text-list) are left untouched.
+ * @param {Element} main The container element
+ */
+function decorateContentLists(main) {
+  const lists = main.querySelectorAll(':scope .default-content-wrapper ul, :scope .default-content-wrapper ol');
+  const leading = /^\s*(\d+)\s*[.)\-–—]?\s*$/;
+  const inline = /^\s*(\d+)\s*[.)\-–—]\s+/;
+  lists.forEach((list) => {
+    [...list.children].forEach((li) => {
+      if (li.tagName !== 'LI') return;
+      const first = li.firstElementChild;
+      let number = null;
+      // case A: the number is its own first paragraph → remove it
+      if (first && first.tagName === 'P' && leading.test(first.textContent)) {
+        [, number] = first.textContent.match(leading);
+        first.remove();
+      } else {
+        // case B: the number prefixes the first text → strip the prefix
+        const target = first && first.tagName === 'P' ? first : li;
+        const m = target.textContent.match(inline);
+        if (m) {
+          [, number] = m;
+          target.textContent = target.textContent.replace(inline, '');
+        }
+      }
+      if (number !== null) {
+        li.classList.add('is-numbered');
+        li.dataset.number = number;
+      }
+    });
+  });
+}
+
 // eslint-disable-next-line import/prefer-default-export
 export function decorateMain(main) {
   decorateIcons(main);
@@ -190,6 +228,7 @@ export function decorateMain(main) {
   decorateSectionMetadata(main);
   decorateBlocks(main);
   decorateButtons(main);
+  decorateContentLists(main);
 }
 
 /**
