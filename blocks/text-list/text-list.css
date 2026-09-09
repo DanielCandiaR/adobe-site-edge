@@ -25,6 +25,7 @@
   display: flex;
   align-items: center;
   gap: var(--icon-gap);
+  min-height: 40px;
 }
 
 /* the check, always on the left */
