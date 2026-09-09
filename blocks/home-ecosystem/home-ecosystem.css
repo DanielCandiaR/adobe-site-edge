@@ -1,0 +1,383 @@
+/* home-ecosystem — Puntos.net home hero (two-column: content + Adobe visual).
+   Values verified against the source. Two columns only from 1600px (Ant xxl);
+   below that the visual stacks under the content. */
+
+/* stylelint-disable no-descending-specificity */
+
+/* full-bleed dark background with dotted grid + cyan glow */
+.home-ecosystem-container .home-ecosystem-wrapper {
+  max-width: unset;
+  padding: 0;
+}
+
+.home-ecosystem {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+  padding: 72px 24px;
+  background:
+    linear-gradient(to left, rgb(8 145 178 / 15%), transparent 50%),
+    radial-gradient(circle at 2px 2px, rgb(255 255 255 / 4%) 1px, transparent 0),
+    var(--pn-bg, #001a32);
+  background-size: 100% 100%, 50px 50px, auto;
+}
+
+/* ---- left column ---- */
+.home-ecosystem .content-left {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  min-width: 0;
+}
+
+.home-ecosystem .content-info .title {
+  margin: 0 0 24px;
+  color: #fff;
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 1.02;
+  letter-spacing: -2px;
+}
+
+.home-ecosystem .content-info .title .highlight,
+.home-ecosystem .content-info .title em {
+  color: var(--pn-bright-blue, #009ace);
+  font-style: normal;
+}
+
+.home-ecosystem .content-info .description {
+  margin: 0;
+  max-width: 720px;
+  color: var(--pn-text, #cbd5e1);
+  font-size: 17px;
+  line-height: 1.8;
+}
+
+/* check list (reuses the shared red-check styling, tightened here) */
+.home-ecosystem .content-info .home-check-list {
+  margin: 24px 0 0;
+}
+
+/* partner badge */
+.home-ecosystem .partner-badge {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: 32px;
+  min-height: 64px;
+}
+
+.home-ecosystem .partner-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 64px;
+  height: 64px;
+  border-radius: 18px;
+  background: #fff;
+  overflow: hidden;
+  box-shadow: 0 0 24px rgb(239 68 68 / 50%), 0 0 48px rgb(239 68 68 / 30%);
+  animation: home-eco-pulse 3s ease-in-out infinite;
+}
+
+.home-ecosystem .partner-image {
+  width: 70%;
+  height: 70%;
+  object-fit: contain;
+}
+
+.home-ecosystem .partner-label {
+  display: block;
+  color: var(--pn-red, #ef4444);
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.home-ecosystem .partner-text {
+  color: #fff;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+/* ---- metrics ---- */
+.home-ecosystem .content-metrics {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.home-ecosystem .metric-card {
+  padding: 20px;
+  border-radius: 24px;
+  background: var(--pn-card-bg, rgb(31 41 55 / 45%));
+  border: 1px solid var(--pn-card-border, rgb(255 255 255 / 8%));
+  backdrop-filter: blur(14px);
+}
+
+.home-ecosystem .metric-value {
+  font-size: 40px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.home-ecosystem .metric-label {
+  margin-top: 8px;
+  color: var(--pn-text, #cbd5e1);
+  font-size: 15px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* ---- right column: Adobe ecosystem visual ---- */
+.home-ecosystem .content-right {
+  min-width: 0;
+}
+
+.home-ecosystem .metrics-wrapper {
+  position: relative;
+  min-height: 520px;
+  transition: transform 0.15s linear;
+  will-change: transform;
+}
+
+.home-ecosystem .metrics-wrapper::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 48px;
+  background-image: url('./img/builds.avif');
+  background-size: cover;
+  background-position: center;
+  opacity: 0.25;
+  z-index: 0;
+}
+
+.home-ecosystem .metrics-wrapper::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgb(0 26 50 / 20%), rgb(0 26 50 / 70%));
+  z-index: 1;
+}
+
+.home-ecosystem .metrics-wrapper > * {
+  position: relative;
+  z-index: 2;
+}
+
+/* connection lines */
+.home-ecosystem .connection-lines {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.6;
+  z-index: 3;
+  pointer-events: none;
+}
+
+.home-ecosystem .connection-lines path {
+  opacity: 0;
+  animation: home-eco-line 0.8s ease-out forwards;
+}
+
+.home-ecosystem .connection-lines path:nth-child(1) { animation-delay: 0.1s; }
+.home-ecosystem .connection-lines path:nth-child(2) { animation-delay: 0.25s; }
+.home-ecosystem .connection-lines path:nth-child(3) { animation-delay: 0.4s; }
+.home-ecosystem .connection-lines path:nth-child(4) { animation-delay: 0.55s; }
+.home-ecosystem .connection-lines path:nth-child(5) { animation-delay: 0.7s; }
+.home-ecosystem .connection-lines path:nth-child(6) { animation-delay: 0.85s; }
+
+/* central hub */
+.home-ecosystem .central-hub {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  border: 1px solid rgb(239 68 68 / 30%);
+  box-shadow: 0 0 40px rgb(239 68 68 / 25%), 0 0 80px rgb(239 68 68 / 10%);
+  z-index: 4;
+}
+
+.home-ecosystem .hub-circle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: rgb(239 68 68 / 15%);
+  animation: home-eco-pulse 2s ease-in-out infinite;
+}
+
+.home-ecosystem .hub-circle svg {
+  width: 70%;
+  height: 70%;
+  object-fit: contain;
+  filter: brightness(0.7) contrast(0.9);
+}
+
+/* floating product cards */
+.home-ecosystem .floating-card {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 20px;
+  border-radius: 24px;
+  color: #fff;
+  z-index: 4;
+  background: rgb(31 41 55 / 40%);
+  border: 1px solid rgb(255 255 255 / 10%);
+  animation: home-eco-float 6s ease-in-out infinite;
+}
+
+.home-ecosystem .floating-card svg {
+  width: 24px;
+  height: 24px;
+}
+
+.home-ecosystem .floating-card span {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.home-ecosystem .floating-card.card-aem {
+  top: 10%;
+  left: 3%;
+  animation-delay: -1s;
+}
+
+.home-ecosystem .floating-card.card-commerce {
+  top: 5%;
+  right: 10%;
+  animation-delay: -2.5s;
+}
+
+.home-ecosystem .floating-card.card-cdp {
+  right: 2%;
+  bottom: 20%;
+  animation-delay: -4s;
+}
+
+.home-ecosystem .floating-card.card-campaign {
+  bottom: 10%;
+  left: 15%;
+  animation-delay: -5.5s;
+}
+
+.home-ecosystem .floating-card.card-application {
+  top: 40%;
+  right: 3%;
+  animation-delay: -5.5s;
+}
+
+.home-ecosystem .floating-card.card-intelligent {
+  bottom: 40%;
+  left: 1%;
+  animation-delay: -5.5s;
+}
+
+/* ---- tablet ---- */
+@media (width >= 768px) {
+  .home-ecosystem {
+    padding: 72px 48px;
+  }
+
+  .home-ecosystem .content-info .title {
+    font-size: 43px;
+    letter-spacing: -3px;
+  }
+
+  .home-ecosystem .content-metrics {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    max-width: 480px;
+  }
+
+  .home-ecosystem .metrics-wrapper {
+    min-height: 720px;
+  }
+}
+
+/* ---- desktop two-column (Ant xxl = 1600px) ---- */
+@media (width >= 1600px) {
+  .home-ecosystem {
+    flex-direction: row;
+    align-items: center;
+    gap: 48px;
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: 112px 48px;
+  }
+
+  .home-ecosystem .content-left,
+  .home-ecosystem .content-right {
+    flex: 1;
+  }
+
+  .home-ecosystem .metrics-wrapper {
+    min-height: 920px;
+  }
+}
+
+/* respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .home-ecosystem .partner-icon,
+  .home-ecosystem .hub-circle,
+  .home-ecosystem .floating-card,
+  .home-ecosystem .connection-lines path {
+    animation: none;
+  }
+
+  .home-ecosystem .connection-lines path {
+    opacity: 0.6;
+  }
+}
+
+@keyframes home-eco-float {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+
+  50% {
+    transform: translateY(-20px) rotate(1deg);
+  }
+}
+
+@keyframes home-eco-line {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes home-eco-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.9;
+  }
+
+  50% {
+    transform: scale(1.06);
+    opacity: 1;
+  }
+}
