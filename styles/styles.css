@@ -443,15 +443,12 @@ main .section.border-pn-b-2-soft { border-bottom: 2px solid var(--pn-border-soft
 /* stylelint-disable no-descending-specificity */
 
 /* ---- shared check-list styling ----
-   Any default-content <ul> inside a dark PN section (or an explicit .pn-list)
-   gets the red check vineta, matching the live site: a red check glyph on a
-   transparent background (no circle), tight spacing. The check colour is
-   configurable via --pn-check-color. Decorated block lists (.container-list,
-   nav lists, card grids) are excluded. */
-main .section:is(.bg-pn, .bg-pn-dot, .bg-pn-second, .bg-pn-second-dot, .bg-pn-grad, .bg-pn-grad-dot)
-  .default-content-wrapper ul:not(.container-list),
-main .pn-list ul,
-main ul.pn-list {
+   Every content list gets a red check on the left of each item, matching the
+   live site (transparent red check, no circle, tight spacing). Decorated block
+   lists (nav, footer, cards, and the text-list block's own .container-list)
+   are excluded so they keep their bespoke styling. The check colour is
+   configurable via --pn-check-color. */
+main ul:not(.container-list, nav ul, footer ul, [class*="cards"] ul) {
   list-style: none;
   margin: 0;
   padding: 0;
@@ -460,10 +457,7 @@ main ul.pn-list {
   gap: 0;
 }
 
-main .section:is(.bg-pn, .bg-pn-dot, .bg-pn-second, .bg-pn-second-dot, .bg-pn-grad, .bg-pn-grad-dot)
-  .default-content-wrapper ul:not(.container-list) > li,
-main .pn-list ul > li,
-main ul.pn-list > li {
+main ul:not(.container-list, nav ul, footer ul, [class*="cards"] ul) > li {
   position: relative;
   display: flex;
   align-items: center;
@@ -474,10 +468,7 @@ main ul.pn-list > li {
   line-height: 1.4;
 }
 
-main .section:is(.bg-pn, .bg-pn-dot, .bg-pn-second, .bg-pn-second-dot, .bg-pn-grad, .bg-pn-grad-dot)
-  .default-content-wrapper ul:not(.container-list) > li::before,
-main .pn-list ul > li::before,
-main ul.pn-list > li::before {
+main ul:not(.container-list, nav ul, footer ul, [class*="cards"] ul) > li::before {
   content: '';
   flex-shrink: 0;
   width: 22px;

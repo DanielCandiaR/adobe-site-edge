@@ -1,50 +1,15 @@
-/* text-list — reusable list component (port of the source TextListComponent).
-   Default look matches the live site: a red check glyph on a transparent
-   background (no circle). All other looks are opt-in variants. */
-
-/* stylelint-disable no-descending-specificity */
+/* text-list — a simple list: red check on the left of every item.
+   Matches the live site (transparent red check, no circle, tight spacing). */
 .text-list {
-  /* spacing */
-  --items-gap: 10px;
-  --icon-gap: 12px;
-  --content-gap: 4px;
-  --heading-margin: 14px;
-
-  /* vineta */
-  --vineta-container: 22px;   /* the outer box */
-  --vineta-size: 16px;        /* the glyph inside */
-  --vineta-color: var(--pn-red, #ef4444);
-  --vineta-bg: transparent;
-  --vineta-border-width: 0;
-  --vineta-border-color: var(--pn-red, #ef4444);
-  --vineta-radius: 50%;
-
-  /* text */
-  --title-color: var(--pn-text, #cbd5e1);
-  --title-size: 14px;
-  --text-color: var(--pn-text, #cbd5e1);
-  --text-size: 13px;
-
-  /* card + hover */
-  --item-padding: 20px;
-  --item-bg: var(--pn-border-soft, rgb(255 255 255 / 5%));
-  --item-border: var(--pn-border-soft, rgb(255 255 255 / 5%));
-  --item-hover-bg: rgb(6 182 212 / 8%);
-  --item-hover-border: rgb(6 182 212 / 30%);
-  --item-hover-shadow: 0 8px 25px rgb(6 182 212 / 30%);
-  --item-hover-title-color: #fff;
-  --item-hover-text-color: var(--pn-text, #cbd5e1);
+  --check-color: var(--pn-red, #ef4444);
+  --check-size: 22px;
+  --check-glyph: 16px;
+  --items-gap: 0px;
+  --icon-gap: 5px;
 
   display: flex;
   flex-direction: column;
   width: 100%;
-}
-
-/* optional list heading (variant `with-heading`) */
-.text-list .header-text-list {
-  margin-bottom: var(--heading-margin);
-  font-size: 14px;
-  font-weight: 700;
 }
 
 .text-list .container-list {
@@ -60,32 +25,18 @@
   display: flex;
   align-items: center;
   gap: var(--icon-gap);
-  border: 1px solid transparent;
-  border-radius: 10px;
-  transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-/* align vineta to the top of the content (for multi-line items) */
-.text-list.align-start .item-list {
-  align-items: flex-start;
-}
-
-/* ---- vineta ---- */
+/* the check, always on the left */
 .text-list .icon-vineta {
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  box-sizing: border-box;
-  width: var(--vineta-container);
-  height: var(--vineta-container);
-  border: var(--vineta-border-width) solid var(--vineta-border-color);
-  border-radius: var(--vineta-radius);
-  background: var(--vineta-bg);
-  color: var(--vineta-color);
-  font-size: var(--vineta-size);
-  font-weight: 700;
-  line-height: 1;
+  width: var(--check-size);
+  height: var(--check-size);
+  color: var(--check-color);
+  font-size: var(--check-glyph);
 }
 
 .text-list .icon-vineta svg {
@@ -94,125 +45,18 @@
   display: block;
 }
 
-.text-list .icon-vineta img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  display: block;
-}
-
-.text-list .icon-vineta .content-vineta {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  line-height: 1;
-}
-
-/* ---- vineta families ---- */
-
-/* check (default): transparent, red glyph, no circle */
-
-/* check-circle: red filled circle + white check */
-.text-list.check-circle {
-  --vineta-bg: var(--pn-red, #ef4444);
-  --vineta-color: #fff;
-  --vineta-border-width: 1px;
-  --vineta-size: 11px;
-}
-
-/* check-outline: transparent circle, red border + red check */
-.text-list.check-outline {
-  --vineta-border-width: 1px;
-  --vineta-size: 11px;
-}
-
-/* dot: "·" glyph in a 28px circle (source text-vineta default) */
-.text-list.dot {
-  --vineta-container: 28px;
-  --vineta-bg: var(--pn-red, #ef4444);
-  --vineta-color: #fff;
-  --vineta-border-width: 1px;
-  --vineta-size: 18px;
-}
-
-/* number: filled circle with an auto-incrementing number */
-.text-list.number {
-  --vineta-container: 28px;
-  --vineta-bg: var(--pn-red, #ef4444);
-  --vineta-color: #fff;
-  --vineta-border-width: 1px;
-  --vineta-size: 13px;
-}
-
-/* icon: author image; drop the circle framing by default */
-.text-list.icon {
-  --vineta-bg: transparent;
-  --vineta-border-width: 0;
-  --vineta-radius: 0;
-}
-
-/* ---- content ---- */
 .text-list .container-content {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: var(--content-gap);
   flex: 1;
 }
 
 .text-list .title-content {
   margin: 0;
-  color: var(--title-color);
-  font-size: var(--title-size);
+  color: var(--pn-text, #cbd5e1);
+  font-size: 14px;
   font-weight: 700;
   line-height: 1.4;
 }
 
-.text-list .text-content {
+.text-list .title-content p {
   margin: 0;
-  color: var(--text-color);
-  font-size: var(--text-size);
-  font-weight: 500;
-  line-height: 1.4;
-}
-
-.text-list .title-content p,
-.text-list .text-content p {
-  margin: 0;
-}
-
-/* ---- compact spacing (the live-site look) ---- */
-.text-list.compact {
-  --items-gap: 0px;
-  --icon-gap: 5px;
-}
-
-/* ---- card variant ---- */
-.text-list.card .item-list {
-  padding: var(--item-padding);
-  background: var(--item-bg);
-  border-color: var(--item-border);
-}
-
-/* clickable items */
-.text-list .item-list.item-clickable {
-  cursor: pointer;
-}
-
-/* ---- hover effect (explicit `hover` variant, or cards) ---- */
-.text-list.hover .item-list:hover,
-.text-list.card .item-list:hover {
-  background: var(--item-hover-bg);
-  border-color: var(--item-hover-border);
-  box-shadow: var(--item-hover-shadow);
-}
-
-.text-list.hover .item-list:hover .title-content,
-.text-list.card .item-list:hover .title-content {
-  color: var(--item-hover-title-color);
-}
-
-.text-list.hover .item-list:hover .text-content,
-.text-list.card .item-list:hover .text-content {
-  color: var(--item-hover-text-color);
 }
