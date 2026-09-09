@@ -41,13 +41,13 @@ var CustomImportScript = (() => {
     default: () => import_home_default
   });
 
-  // tools/importer/parsers/hero-partner.js
+  // tools/importer/parsers/home-ecosystem.js
   function parse(element, { document: document2 }) {
-    const titleEl = element.querySelector('.title, [class*="title"]:not(.title-content)');
-    const description = element.querySelector(".description, p");
+    const info = element.querySelector(".content-info") || element;
+    const titleEl = info.querySelector('.title, [class*="title"]:not(.title-content)');
+    const description = info.querySelector(".description, p");
     const listItems = Array.from(element.querySelectorAll(".container-list .item-list, ul li"));
     const badge = element.querySelector(".partner-badge");
-    const bgImage = element.querySelector('img[class*="background"], img[class*="hero-bg"]');
     const contentCell = [];
     if (titleEl) {
       const heading = document2.createElement("h1");
@@ -82,62 +82,23 @@ var CustomImportScript = (() => {
       }
       if (p.childNodes.length) contentCell.push(p);
     }
-    if (contentCell.length === 0) {
-      element.replaceWith(...element.childNodes);
-      return;
-    }
     const cells = [];
-    if (bgImage) cells.push([bgImage]);
-    cells.push([contentCell]);
-    const block = WebImporter.Blocks.createBlock(document2, { name: "hero-partner", cells });
-    element.replaceWith(block);
-  }
-
-  // tools/importer/parsers/cards-stats.js
-  function parse2(element, { document: document2 }) {
-    const cardEls = Array.from(element.querySelectorAll(".card.stadistic, .card"));
-    const cells = [];
-    cardEls.forEach((card) => {
-      const number = card.querySelector(".card-title");
-      const caption = card.querySelector(".card-text");
-      const cardCell = [];
-      if (number) {
-        const h = document2.createElement("h2");
-        h.textContent = number.textContent.trim();
-        cardCell.push(h);
-      }
-      if (caption) {
-        const p = document2.createElement("p");
-        p.textContent = caption.textContent.trim();
-        cardCell.push(p);
-      }
-      if (cardCell.length) cells.push([cardCell]);
+    if (contentCell.length) cells.push([contentCell]);
+    const metricCards = Array.from(element.querySelectorAll(".content-metrics .card, .card.stadistic"));
+    metricCards.forEach((card) => {
+      const value = card.querySelector(".card-title");
+      const label = card.querySelector(".card-text");
+      if (!value) return;
+      cells.push([
+        value.textContent.trim(),
+        label ? label.textContent.trim() : ""
+      ]);
     });
     if (cells.length === 0) {
       element.replaceWith(...element.childNodes);
       return;
     }
-    const block = WebImporter.Blocks.createBlock(document2, { name: "cards-stats", cells });
-    element.replaceWith(block);
-  }
-
-  // tools/importer/parsers/cards-product.js
-  function parse3(element, { document: document2 }) {
-    const cardEls = Array.from(element.querySelectorAll(".floating-card"));
-    const cells = [];
-    cardEls.forEach((card) => {
-      const icon = card.querySelector(".icon img, img");
-      const labelEl = card.querySelector(":scope > span:not(.icon), span:not(.anticon):not(.icon)");
-      const label = labelEl ? labelEl.textContent.trim() : "";
-      const p = document2.createElement("p");
-      p.textContent = label;
-      cells.push([icon || "", p]);
-    });
-    if (cells.length === 0) {
-      element.replaceWith(...element.childNodes);
-      return;
-    }
-    const block = WebImporter.Blocks.createBlock(document2, { name: "cards-product", cells });
+    const block = WebImporter.Blocks.createBlock(document2, { name: "home-ecosystem", cells });
     element.replaceWith(block);
   }
 
@@ -211,20 +172,16 @@ var CustomImportScript = (() => {
 
   // tools/importer/import-home.js
   var parsers = {
-    "hero-partner": parse,
-    "cards-stats": parse2,
-    "cards-product": parse3
+    "home-ecosystem": parse
   };
   var PAGE_TEMPLATE = {
     name: "home",
-    description: "Homepage: hero, animated stat counters, grid of 6 Adobe product tiles.",
+    description: "Homepage: two-column hero with authored content + fixed Adobe ecosystem visual.",
     urls: [
       "http://adobe.puntos.net.s3-website-us-east-1.amazonaws.com/"
     ],
     blocks: [
-      { name: "hero-partner", instances: [".content-left .content-info"] },
-      { name: "cards-stats", instances: [".content-left > .ant-space > .ant-space-item:nth-of-type(2)"] },
-      { name: "cards-product", instances: [".content-right"] }
+      { name: "home-ecosystem", instances: [".home-pn"] }
     ],
     sections: []
   };

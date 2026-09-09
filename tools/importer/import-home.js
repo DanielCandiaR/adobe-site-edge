@@ -2,9 +2,7 @@
 /* global WebImporter */
 
 // PARSER IMPORTS
-import heroPartnerParser from './parsers/hero-partner.js';
-import cardsStatsParser from './parsers/cards-stats.js';
-import cardsProductParser from './parsers/cards-product.js';
+import homeEcosystemParser from './parsers/home-ecosystem.js';
 
 // TRANSFORMER IMPORTS
 import cleanupTransformer from './transformers/puntos-cleanup.js';
@@ -12,22 +10,18 @@ import sectionsTransformer from './transformers/puntos-sections.js';
 
 // PARSER REGISTRY (site-level header/footer are stripped by transformer, no parser)
 const parsers = {
-  'hero-partner': heroPartnerParser,
-  'cards-stats': cardsStatsParser,
-  'cards-product': cardsProductParser,
+  'home-ecosystem': homeEcosystemParser,
 };
 
 // PAGE TEMPLATE CONFIGURATION
 const PAGE_TEMPLATE = {
   name: 'home',
-  description: 'Homepage: hero, animated stat counters, grid of 6 Adobe product tiles.',
+  description: 'Homepage: two-column hero with authored content + fixed Adobe ecosystem visual.',
   urls: [
     'http://adobe.puntos.net.s3-website-us-east-1.amazonaws.com/',
   ],
   blocks: [
-    { name: 'hero-partner', instances: ['.content-left .content-info'] },
-    { name: 'cards-stats', instances: ['.content-left > .ant-space > .ant-space-item:nth-of-type(2)'] },
-    { name: 'cards-product', instances: ['.content-right'] },
+    { name: 'home-ecosystem', instances: ['.home-pn'] },
   ],
   sections: [],
 };
