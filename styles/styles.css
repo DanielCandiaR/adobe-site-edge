@@ -445,10 +445,11 @@ main .section.border-pn-b-2-soft { border-bottom: 2px solid var(--pn-border-soft
 /* ---- shared check-list styling ----
    Every content list (ordered or unordered) gets a red check on the left of
    each item — no bullets, no numbers — matching the live site (transparent red
-   check, no circle, tight spacing). Decorated block lists (nav, footer, cards,
-   and the text-list block's own .container-list) are excluded so they keep
-   their bespoke styling. The check colour is configurable via --pn-check-color. */
-main :is(ul, ol):not(.container-list, nav :is(ul, ol), footer :is(ul, ol), [class*="cards"] :is(ul, ol)) {
+   check, no circle, tight spacing). Excluded: the text-list block's own
+   .container-list, nav/footer lists, and a decorated block's top-level grid
+   list (.block > ul/ol, e.g. the cards grids). Content lists nested inside a
+   card body still get the check. Colour is configurable via --pn-check-color. */
+main :is(ul, ol):not(.container-list, nav :is(ul, ol), footer :is(ul, ol), .block > :is(ul, ol)) {
   list-style: none;
   margin: 0;
   padding: 0;
@@ -457,7 +458,7 @@ main :is(ul, ol):not(.container-list, nav :is(ul, ol), footer :is(ul, ol), [clas
   gap: 0;
 }
 
-main :is(ul, ol):not(.container-list, nav :is(ul, ol), footer :is(ul, ol), [class*="cards"] :is(ul, ol)) > li {
+main :is(ul, ol):not(.container-list, nav :is(ul, ol), footer :is(ul, ol), .block > :is(ul, ol)) > li {
   position: relative;
   display: flex;
   align-items: center;
@@ -470,7 +471,7 @@ main :is(ul, ol):not(.container-list, nav :is(ul, ol), footer :is(ul, ol), [clas
   line-height: 1.4;
 }
 
-main :is(ul, ol):not(.container-list, nav :is(ul, ol), footer :is(ul, ol), [class*="cards"] :is(ul, ol)) > li::before {
+main :is(ul, ol):not(.container-list, nav :is(ul, ol), footer :is(ul, ol), .block > :is(ul, ol)) > li::before {
   content: '';
   flex-shrink: 0;
   width: 22px;
