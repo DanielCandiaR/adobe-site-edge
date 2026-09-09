@@ -1,0 +1,267 @@
+/* card — reusable card component (port of the source CardComponent).
+   Values match the live site: 24px radius, translucent surface, 14px blur,
+   red-free cyan hover. Every knob is exposed as a CSS custom property. */
+
+/* stylelint-disable no-descending-specificity */
+.card {
+  /* surface */
+  --card-radius: 24px;
+  --card-padding: 20px;
+  --card-bg: var(--pn-card-bg, rgb(31 41 55 / 45%));
+  --card-border-color: var(--pn-card-border, rgb(255 255 255 / 8%));
+  --card-border-width: 1px;
+
+  /* typography */
+  --card-title-color: var(--pn-text, #cbd5e1);
+  --card-title-size: 22px;
+  --card-subtitle-color: var(--pn-text, #cbd5e1);
+  --card-subtitle-size: 19px;
+  --card-text-color: var(--pn-text, #cbd5e1);
+  --card-text-size: 15px;
+
+  /* image / icon */
+  --card-icon-size: 100px;
+  --card-icon-radius: 12px;
+  --card-cover-height: 200px;
+
+  /* layout */
+  --card-gap: 16px;
+
+  /* hover */
+  --hover-translate-y: -8px;
+  --hover-scale: 1.02;
+  --hover-border-color: var(--pn-cyan, #06b6d4);
+  --hover-shadow-color: var(--pn-card-hover-shadow, rgb(6 182 212 / 25%));
+  --link-hover-color: var(--pn-primary-blue, #005eb8);
+
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  padding: var(--card-padding);
+  overflow: hidden;
+  border: var(--card-border-width) solid var(--card-border-color);
+  border-radius: var(--card-radius);
+  background: var(--card-bg);
+  backdrop-filter: blur(14px);
+  transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* section grid: cards authored as a group flow into a responsive grid */
+.card-wrapper {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+}
+
+/* ---- clickable ---- */
+.card.is-clickable {
+  cursor: pointer;
+}
+
+/* ---- hover ---- */
+.card.has-hover.hover-full:hover {
+  transform: translateY(var(--hover-translate-y)) scale(var(--hover-scale));
+  border-color: var(--hover-border-color);
+  box-shadow: 0 12px 24px var(--hover-shadow-color);
+}
+
+.card.has-hover.hover-simple:hover {
+  border-color: var(--hover-border-color);
+}
+
+/* ---- containers ---- */
+.card .card-vertical-layout,
+.card .card-content-wrapper {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.card .card-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  min-width: 0;
+}
+
+.card .card-content-info {
+  flex: 1;
+  overflow: hidden;
+  overflow-wrap: break-word;
+}
+
+/* ---- typography ---- */
+.card .card-title {
+  margin: 0 0 8px;
+  color: var(--card-title-color);
+  font-size: var(--card-title-size);
+  font-weight: 700;
+  line-height: 1.2;
+  transition: color 0.3s ease;
+}
+
+.card .card-subtitle {
+  margin: 0 0 12px;
+  color: var(--card-subtitle-color);
+  font-size: var(--card-subtitle-size);
+  font-weight: 400;
+  opacity: 0.8;
+  transition: color 0.3s ease;
+}
+
+.card .card-text {
+  margin: 0;
+  color: var(--card-text-color);
+  font-size: var(--card-text-size);
+  line-height: 1.4;
+  transition: color 0.3s ease;
+}
+
+.card .card-text + .card-text {
+  margin-top: 8px;
+}
+
+/* ---- footer link ---- */
+.card .card-footer {
+  display: flex;
+  margin-top: var(--card-gap);
+}
+
+.card.link-align-center .card-footer { justify-content: center; }
+.card.link-align-right .card-footer { justify-content: flex-end; }
+.card.link-align-left .card-footer { justify-content: flex-start; }
+
+.card .card-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--pn-bright-blue, #009ace);
+  font-weight: 700;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.card .card-link:hover {
+  color: var(--link-hover-color);
+}
+
+.card .card-link .link-icon {
+  display: inline-flex;
+  align-items: center;
+  font-size: 14px;
+}
+
+/* ---- image / icon ---- */
+.card .card-image-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.card .card-image {
+  display: block;
+  object-fit: cover;
+}
+
+.card .card-image.icon {
+  width: var(--card-icon-size);
+  height: var(--card-icon-size);
+  border-radius: var(--card-icon-radius);
+  object-fit: contain;
+}
+
+.card .card-image.cover {
+  width: 100%;
+  height: var(--card-cover-height);
+  object-fit: cover;
+}
+
+.card .card-image.full {
+  width: 100%;
+  border-radius: 0;
+}
+
+/* ---- horizontal image types (left / right) ---- */
+.card.image-left .card-vertical-layout,
+.card.image-right .card-vertical-layout {
+  flex-direction: row;
+  align-items: flex-start;
+  gap: var(--card-gap);
+}
+
+.card.image-left .card-image-wrapper,
+.card.image-right .card-image-wrapper {
+  flex-shrink: 0;
+}
+
+.card.image-left .card-image.icon,
+.card.image-right .card-image.icon {
+  width: var(--card-icon-size);
+  height: var(--card-icon-size);
+}
+
+/* image-right puts the image after the content via source order already */
+
+/* ---- vertical image types (top / bottom) ---- */
+.card.image-top .card-image-wrapper,
+.card.image-bottom .card-image-wrapper {
+  width: 100%;
+}
+
+.card.image-top .card-image-wrapper { margin-bottom: var(--card-gap); }
+.card.image-bottom .card-image-wrapper { margin-top: var(--card-gap); }
+
+/* full-bleed image on top/bottom: cancel the card padding on that edge */
+.card.image-top {
+  padding-top: 0;
+}
+
+.card.image-top .card-image.cover,
+.card.image-top .card-image.full {
+  width: calc(100% + 2 * var(--card-padding));
+  margin: 0 calc(-1 * var(--card-padding));
+  max-width: none;
+}
+
+.card.image-bottom {
+  padding-bottom: 0;
+}
+
+.card.image-bottom .card-image.cover,
+.card.image-bottom .card-image.full {
+  width: calc(100% + 2 * var(--card-padding));
+  margin: 0 calc(-1 * var(--card-padding));
+  max-width: none;
+}
+
+/* ---- stadistic ---- */
+.card.stadistic {
+  text-align: center;
+}
+
+.card.stadistic .card-content-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.card.stadistic .card-title {
+  margin-bottom: 8px;
+  font-size: 40px;
+  line-height: 1;
+}
+
+.card.stadistic .card-text {
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* ---- responsive ---- */
+@media (width >= 768px) {
+  .card-wrapper {
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  }
+}

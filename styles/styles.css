@@ -42,6 +42,11 @@
   --pn-border: #2d3e5a;
   --pn-border-soft: rgb(255 255 255 / 5%);
 
+  /* card surfaces */
+  --pn-card-bg: rgb(31 41 55 / 45%);
+  --pn-card-border: rgb(255 255 255 / 8%);
+  --pn-card-hover-shadow: rgb(6 182 212 / 25%);
+
   /* fonts */
   --body-font-family: 'Avenir Next', avenir-next-fallback, inter, sans-serif;
   --heading-font-family: 'Avenir Next', avenir-next-fallback, inter, sans-serif;
