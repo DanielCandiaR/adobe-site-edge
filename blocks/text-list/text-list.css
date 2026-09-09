@@ -62,13 +62,13 @@
   margin: 0;
 }
 
-/* ---- numbered variant: number inside a red circle ---- */
-.text-list.numbered {
-  --items-gap: 12px;
-  --icon-gap: 12px;
+/* ---- numbered items: number inside a red circle ----
+   Applied per item when the text starts with a number. */
+.text-list .item-list.is-numbered {
+  gap: 12px;
 }
 
-.text-list.numbered .icon-vineta {
+.text-list .item-list.is-numbered .icon-vineta {
   box-sizing: border-box;
   width: 28px;
   height: 28px;
