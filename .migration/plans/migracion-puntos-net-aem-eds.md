@@ -1,100 +1,138 @@
-# Plan de Migración — Sitio "Ecosistema Adobe / Puntos.net" a AEM Edge Delivery Services
+# Rework del Bloque `text-list` — Todas las Variantes del Original
 
-## Resumen del análisis del sitio origen
+## Diagnóstico: por qué no coincide hoy
 
-- **Idioma:** Español (es)
-- **Naturaleza técnica:** SPA renderizado en cliente (JavaScript) servido desde S3. El HTML inicial llega vacío y se hidrata con JS. Esto implica que el scraping debe hacerse sobre el **DOM renderizado** (Playwright), no sobre el HTML crudo.
-- **Título global:** "Ecosistema Adobe dentro de Puntos.net"
-- **Cabecera y pie comunes** en todas las páginas (nav con menús desplegables + footer con 3 columnas).
+El componente original NO es una lista con un estilo fijo: es un **motor de listas 100% configurable por props**. El SCSS solo define *defaults* (círculo rojo relleno + check blanco), pero **cada página los sobreescribe con props inline**. Yo construí el bloque tomando los defaults del SCSS, no los valores reales de uso — por eso no se parece.
 
-### Inventario de páginas (tipos / plantillas detectadas)
+Ejemplo real (`QuienesSomos`, lista `practicesListItems`):
+```js
+typeVineta: "icon", vineta: <CheckOutlined />,
+colorVineta: '#ef4444',          // check ROJO
+backgroundVineta: 'transparent', // SIN círculo
+borderVineta: 'none',            // SIN borde
+sizeVineta: 16,
+// + itemsGap={0}, iconGap={5}   // espaciado muy compacto
+```
+→ El aspecto real ahí es **check rojo sobre fondo transparente, sin círculo, apretado**. El círculo relleno que hice es solo *uno* de los muchos looks posibles.
 
-| # | URL | Tipo de plantilla | Contenido clave |
-|---|-----|-------------------|-----------------|
-| 1 | `/` (Inicio) | **Home** | Hero con texto + lista de checks + badge "Adobe Platinum", contadores animados (Clientes, Años), grid de 6 productos Adobe |
-| 2 | `/blog` | **Blog Listing** | Buscador, tabs de filtro por tag (Todos/RESOURCES/adobe/analytics/test/nueva), grid de cards, paginación |
-| 3 | `/blog/{articulo}` | **Blog Detail** | (a confirmar) detalle de artículo — 5 posts existentes |
-| 4 | `/contacto` | **Contacto** | Formulario (Nombre, Email, Empresa, Teléfono, Asunto (select), Comentario) |
-| 5–10 | `/adobe-partner/*` | **Landing de Solución** | 6 páginas: `cms-dam`, `personalizacion`, `datos-accionables`, `arquitectura-headless`, `mail-marketing`, `automatizacion-omnicanal`. Hero + secciones de features + grid de cards de productos |
-| 11 | `/nosotros/quienes-somos` | **Página Institucional** | Secciones alternadas texto/imagen |
-| 12 | `/nosotros/storytelling` | **Página Institucional** | (a confirmar, misma familia que Quiénes Somos) |
+**Conclusión:** para "tener absolutamente todas las variantes", el bloque EDS debe exponer **toda la superficie de props** como combinación de clases de variante + variables CSS, de modo que cualquier combinación usada en el sitio (o futura) sea reproducible por el autor.
 
-**Total: ~12 páginas en 5–6 plantillas reutilizables.**
+## Superficie COMPLETA de props → variantes/variables EDS
 
-### Bloques / componentes EDS candidatos
+### Nivel raíz (`TextListComponentProps`)
+| Prop original | Variante/variable EDS |
+|---|---|
+| `heading` | variante `with-heading` (primera fila = encabezado) |
+| `headingColor` | `--heading-color` |
+| `headingSize` | `--heading-size` |
+| `headingAlign` (`left/center/right`) | `--heading-align` (o clases `heading-left/center/right`) |
+| `headingMargin` | `--heading-margin` |
+| `itemsGap` | `--items-gap` |
+| `iconGap` | `--icon-gap` |
+| `contentGap` | `--content-gap` |
+| `className` / `style` | clases de variante + overrides por sección |
 
-- **Header/Nav** — logo, menú con 2 desplegables ("Adobe Partner" con 6 ítems, "Nosotros" con 2), selector de idioma (ES), botón calendario/CTA.
-- **Footer** — descripción + redes sociales, columnas "Experiencia" y "Empresa", badge Adobe + copyright.
-- **Hero** (2 variantes: home con lista+badge; landing con imagen de fondo + subtítulos).
-- **Stats / Counters** — contadores numéricos animados.
-- **Cards** (variantes: productos Adobe con icono+título+texto; blog con imagen+tag+autor+fecha).
-- **Blog listing** — buscador + filtro por tabs + paginación (funcionalidad dinámica a evaluar).
-- **Form** — formulario de contacto (candidato a AEM Forms si se habilita el plugin).
-- **Content sections** alternadas texto/imagen (default content de EDS).
-- **Feature list** — listas con ícono de check (default content con lista).
+### Nivel ítem (`TextListItem`) — TODAS las props
+| Prop original | Variante/variable EDS |
+|---|---|
+| `typeItem: 'card' \| 'default'` | variante `card` |
+| `backgroundItem` | `--item-bg` |
+| `paddingItem` | `--item-padding` |
+| `borderItem` | `--item-border` |
+| `linkItem` / `linkTarget` | `<a>` en la fila → `item-clickable` (target según href) |
+| `typeVineta: 'icon' \| 'text'` | familias de viñeta (ver catálogo) |
+| `vineta` (SVG / URL / texto) | icono por defecto, `<img>` autorado, o texto |
+| `colorVineta` | `--vineta-color` |
+| `sizeVineta` | `--vineta-size` (glifo interno) |
+| `containerVineta` | `--vineta-container` (contenedor) |
+| `paddingVineta` | `--vineta-padding` |
+| `backgroundVineta` | `--vineta-bg` |
+| `borderVineta` | `--vineta-border` |
+| `borderColorVineta` | `--vineta-border-color` |
+| `borderRadiusVineta` | `--vineta-radius` |
+| `title` | 1ª celda |
+| `colorTitle` | `--title-color` |
+| `sizeTitle` | `--title-size` |
+| `text` | 2ª celda (opcional) |
+| `colorText` | `--text-color` |
+| `sizeText` | `--text-size` |
+| `hoverEffect` | variante `hover` |
+| `hoverBg` | `--item-hover-bg` |
+| `hoverBorder` | `--item-hover-border` |
+| `hoverShadow` | `--item-hover-shadow` |
+| `colorTitleHover` | `--item-hover-title-color` |
+| `colorTextHover` | `--item-hover-text-color` |
 
-## Decisiones pendientes (a confirmar contigo)
+### Defaults calculados del original (a replicar exactos)
+- `isTextVineta = typeVineta !== 'icon'` → **default = viñeta de TEXTO**: contenedor **28px**, glifo ≈ **10.6px** (0.38×), contenido `·`.
+- `typeVineta:'icon'` → contenedor **22px**, glifo **11px** (0.5×), contenido = icono.
+- CSS base viñeta: círculo, fondo rojo, borde rojo, glifo blanco — **todo sobreescribible**.
 
-1. **Tipo de proyecto EDS**: documento (Google Docs/SharePoint), Document Authoring (`da.live`), o Crosswalk/Universal Editor (`xwalk`). Determina el formato de salida del contenido.
-2. **Alcance inicial**: ¿migrar las 12 páginas o empezar por un subconjunto (p.ej. Home + 1 landing + Blog) como prueba de concepto?
-3. **Blog dinámico**: el buscador, filtros y paginación son funcionalidad JS. Decidir si se replica como bloque interactivo o se simplifica a listado indexado por EDS.
-4. **Formulario de contacto**: bloque simple vs. AEM Forms (requiere habilitar el plugin de Forms).
+## Catálogo COMPLETO de variantes a entregar
+
+**Familia de viñeta** (una por bloque):
+- `check-circle` → círculo rojo relleno + check blanco (default del SCSS; heros/beneficios).
+- `check` → check rojo transparente, sin círculo (aspecto QuienesSomos).
+- `check-outline` → check rojo con borde circular rojo, relleno transparente.
+- `dot` → viñeta de texto `·` en contenedor 28px (default `typeVineta:'text'`).
+- `number` → viñetas numeradas autoincrementales (contador CSS) en contenedor de texto.
+- `icon` → icono/imagen provisto por el autor (SVG inline o `<img>` en la fila).
+- `text-vineta` → viñeta con texto/carácter arbitrario (ej. inicial, símbolo).
+
+**Layout / comportamiento** (combinables entre sí y con cualquier familia):
+- `card` → cada ítem tarjeta (fondo white-5, padding 20px, borde suave).
+- `hover` → efecto hover (bg/borde/sombra + cambio de color título/texto).
+- `compact` → `--items-gap:0; --icon-gap:5px` (QuienesSomos).
+- `align-center` / `align-start` → alineación vertical viñeta↔contenido (el original usa `center`).
+- `item-clickable` → automático cuando la fila trae `<a>`.
+
+**Contenido:**
+- Solo título · título + descripción · encabezado de lista opcional (`with-heading`).
+
+**Configurabilidad total:** cada color/tamaño/gap/borde de la tabla anterior expuesto como variable CSS, sobreescribible en la sección o en el bloque (recolorear viñeta, cambiar tamaños, etc.).
+
+## Modelo de contenido EDS (contrato autor↔bloque)
+
+- Bloque `text-list` + clases de variante, p. ej. `text-list (check, compact)` o `text-list (card, hover)`.
+- **Una fila por ítem**: 1ª celda = título; 2ª celda opcional = descripción.
+- Imagen en la fila → viñeta personalizada (fuerza familia `icon`).
+- Enlace en la fila → ítem navegable (`item-clickable`).
+- Variante `with-heading` → primera fila del bloque = encabezado de la lista.
+- Variante `number` → numeración automática, sin que el autor escriba números.
+
+## Reconciliación con listas embebidas (`.pn-list`)
+
+`.pn-list` (en `styles.css`) hoy usa círculo rojo relleno. Se **parametriza con las mismas variables** que el bloque y se le da el default que confirme la Fase 0, para que las listas embebidas en `columns-media` / `cards-benefits` / heros coincidan con el origen y compartan un solo sistema de viñeta.
 
 ## Checklist
 
-### Fase 0 — Preparación y decisiones
-- [ ] Confirmar tipo de proyecto EDS (doc / da / xwalk)
-- [ ] Confirmar alcance de la primera iteración (subconjunto vs. sitio completo)
-- [ ] Confirmar tratamiento del blog dinámico y del formulario
-- [ ] Verificar `npm install` y arrancar servidor local (`aem up`) en background
+### Fase 0 — Verificación del origen (imprescindible)
+- [ ] Localizar **todas** las instancias de `TextListComponent` en el sitio origen: QuienesSomos (`practicesListItems`), CMSDAM "why" (tecnología/experiencia), listas de features de heros, y cada landing `/adobe-partner/*`
+- [ ] Con Playwright, capturar estilos computados reales por instancia: `background`, `border`, `color`, tamaño glifo/contenedor de viñeta, `gap` de ítems e icono, padding de ítem, hover
+- [ ] Tabular la combinación de props de cada página → mapear a variante EDS y **fijar el default correcto** de cada familia
 
-### Fase 1 — Descubrimiento y catálogo del sitio
-- [ ] Ejecutar descubrimiento de URLs (sitemap/crawl) para confirmar el listado completo de páginas
-- [ ] Revisar páginas aún no inspeccionadas: `/nosotros/storytelling`, detalle de artículo de blog, y las 5 landings restantes de `/adobe-partner/*`
-- [ ] Catalogar plantillas y agrupar URLs por tipo (site catalog → `page-templates.json`)
-- [ ] Inventariar bloques EDS disponibles en el proyecto y en la Block Collection
+### Fase 1 — Rediseño del bloque `text-list`
+- [ ] Implementar el sistema completo de **variables CSS** (toda la tabla de props: viñeta, título, texto, hover, gaps, tarjeta, heading)
+- [ ] Implementar TODAS las familias de viñeta: `check-circle`, `check`, `check-outline`, `dot`, `number`, `icon`, `text-vineta`
+- [ ] Implementar variantes de layout/comportamiento: `card`, `hover`, `compact`, `align-center/align-start`, `item-clickable`
+- [ ] Implementar `with-heading` y soporte título + descripción
+- [ ] Replicar los defaults calculados del original (contenedor 28/22px, glifo 0.38×/0.5×, contenido `·`/icono)
+- [ ] Ajustar el JS de decoración al nuevo modelo (imagen→viñeta, enlace→clickable, celdas→título/desc, numeración automática)
 
-### Fase 2 — Análisis por plantilla
-- [ ] Analizar la estructura de cada plantilla representativa (secciones, secuencias, decisiones de autoría)
-- [ ] Definir el modelo de contenido de cada bloque (contrato autor↔desarrollador)
-- [ ] Mapear selectores DOM de cada variante de bloque
-- [ ] Identificar y descargar imágenes/iconos, optimizarlas
+### Fase 2 — Reconciliar listas embebidas
+- [ ] Parametrizar `.pn-list` con las mismas variables del bloque
+- [ ] Fijar su default según Fase 0 y verificar coincidencia en `columns-media`, `cards-benefits`, heros
 
-### Fase 3 — Diseño / estilos
-- [ ] Extraer design tokens del origen (tipografía, colores, espaciados)
-- [ ] Migrar estilos globales (`styles.css`, `fonts.css`) mobile-first
-- [ ] Estilar cada bloque para replicar el aspecto del origen
+### Fase 3 — Verificación visual (todas las variantes)
+- [ ] Crear un draft que ejercite **cada variante y combinación** en una sola página de muestra
+- [ ] Levantar el preview y comparar cada variante contra su instancia original (viñeta, colores, espaciados, hover)
+- [ ] Iterar CSS hasta igualar; verificar responsive (768px) y accesibilidad (contraste, foco en ítems clickeables)
 
-### Fase 4 — Bloques
-- [ ] Migrar Header/Nav (desplegables + selector de idioma)
-- [ ] Migrar Footer
-- [ ] Construir Hero (2 variantes)
-- [ ] Construir Cards (productos + blog)
-- [ ] Construir Stats/Counters
-- [ ] Construir bloque de Blog listing (según decisión Fase 0)
-- [ ] Construir Formulario de contacto (según decisión Fase 0)
-
-### Fase 5 — Infraestructura de importación de contenido
-- [ ] Generar parsers de bloques por variante
-- [ ] Generar transformers de página (limpieza, secciones, imágenes)
-- [ ] Generar script de importación combinando plantilla + parsers + transformers
-- [ ] Ejecutar importación en bulk hacia el directorio de contenido
-
-### Fase 6 — Validación y QA
-- [ ] Previsualizar cada página importada en el servidor local y comparar con el origen
-- [ ] Validación de completitud de contenido (origen vs. salida) por página
-- [ ] Crítica visual y ajuste de estilos hasta igualar el diseño
-- [ ] Revisar accesibilidad (jerarquía de encabezados, alt text, ARIA) y responsive
-- [ ] `npm run lint` y corrección de issues
-
-### Fase 7 — Despliegue
-- [ ] Push a rama de feature; verificar sincronización con AEM Code Sync
-- [ ] Ejecutar PageSpeed Insights sobre la preview y corregir hasta ~100
-- [ ] Abrir PR con enlace a página de preview que ilustre los cambios
-- [ ] Revisión humana y merge a `main`
+### Fase 4 — Cierre
+- [ ] `npm run lint` (ESLint + Stylelint) sin errores
+- [ ] Documentar en un comentario del bloque el catálogo de variantes y variables CSS disponibles
+- [ ] Commit en la rama `feature/heador-footer-ia` y push
 
 ---
 
-> **Nota:** Este plan está en modo planificación. La ejecución (scraping, generación de bloques, importación de contenido y cambios de archivos) requiere pasar a modo de ejecución. Antes de comenzar necesito tus respuestas a las 4 decisiones pendientes de la Fase 0.
-
-¿Quieres que resuelva ahora las decisiones pendientes para dejar el plan listo para ejecutar?
+> **Nota:** Plan en modo planificación. La ejecución (Playwright sobre el origen, reescritura de `text-list.js` / `text-list.css` y `styles.css`, y validación en preview) requiere **modo de ejecución**. La Fase 0 es la clave para no volver a fijar un default equivocado y garantizar que **todas** las variantes coincidan con el sitio real.

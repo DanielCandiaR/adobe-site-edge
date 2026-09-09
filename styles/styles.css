@@ -439,9 +439,10 @@ main .section.border-pn-b-2-soft { border-bottom: 2px solid var(--pn-border-soft
 
 /* ---- shared check-list styling ----
    Any default-content <ul> inside a dark PN section (or an explicit .pn-list)
-   gets the red check vineta, matching the source TextListComponent. The check
-   colour is configurable via --pn-check-color. Decorated block lists
-   (.container-list, nav lists, card grids) are excluded. */
+   gets the red check vineta, matching the live site: a red check glyph on a
+   transparent background (no circle), tight spacing. The check colour is
+   configurable via --pn-check-color. Decorated block lists (.container-list,
+   nav lists, card grids) are excluded. */
 main .section:is(.bg-pn, .bg-pn-dot, .bg-pn-second, .bg-pn-second-dot, .bg-pn-grad, .bg-pn-grad-dot)
   .default-content-wrapper ul:not(.container-list),
 main .pn-list ul,
@@ -451,7 +452,7 @@ main ul.pn-list {
   padding: 0;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 0;
 }
 
 main .section:is(.bg-pn, .bg-pn-dot, .bg-pn-second, .bg-pn-second-dot, .bg-pn-grad, .bg-pn-grad-dot)
@@ -460,10 +461,11 @@ main .pn-list ul > li,
 main ul.pn-list > li {
   position: relative;
   display: flex;
-  align-items: flex-start;
-  gap: 12px;
+  align-items: center;
+  gap: 5px;
   padding: 0;
   color: var(--pn-text);
+  font-weight: 700;
   line-height: 1.4;
 }
 
@@ -475,11 +477,6 @@ main ul.pn-list > li::before {
   flex-shrink: 0;
   width: 22px;
   height: 22px;
-  margin-top: 1px;
-  border-radius: 50%;
   background-color: var(--pn-check-color, var(--pn-red));
-  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="64 64 896 896" fill="white"><path d="M912 190h-69.9c-9.8 0-19.1 4.5-25.1 12.2L404.7 724.5 207 474a32 32 0 00-25.1-12.2H112c-6.7 0-10.4 7.7-6.3 12.9l273.9 347c12.8 16.2 37.4 16.2 50.3 0l488.4-618.9c4.1-5.1.4-12.8-6.3-12.8z"/></svg>');
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: 12px 12px;
+  mask: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="64 64 896 896"><path d="M912 190h-69.9c-9.8 0-19.1 4.5-25.1 12.2L404.7 724.5 207 474a32 32 0 00-25.1-12.2H112c-6.7 0-10.4 7.7-6.3 12.9l273.9 347c12.8 16.2 37.4 16.2 50.3 0l488.4-618.9c4.1-5.1.4-12.8-6.3-12.8z"/></svg>') no-repeat center / 16px 16px;
 }
