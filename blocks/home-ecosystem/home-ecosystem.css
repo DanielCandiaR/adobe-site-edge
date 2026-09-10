@@ -35,10 +35,10 @@
 .home-ecosystem .content-info .title {
   margin: 0 0 24px;
   color: #fff;
-  font-size: 28px;
+  font-size: clamp(38px, 24px + 3.6vw, 70px);
   font-weight: 700;
   line-height: 1.02;
-  letter-spacing: -2px;
+  letter-spacing: -3px;
 }
 
 .home-ecosystem .content-info .title .highlight,
@@ -51,7 +51,7 @@
   margin: 0;
   max-width: 720px;
   color: var(--pn-text, #cbd5e1);
-  font-size: 17px;
+  font-size: clamp(15px, 12.8px + 0.56vw, 20px);
   line-height: 1.8;
 }
 
@@ -101,7 +101,7 @@
 
 .home-ecosystem .partner-text {
   color: #fff;
-  font-size: 20px;
+  font-size: clamp(18px, 15.4px + 0.67vw, 24px);
   font-weight: 700;
 }
 
@@ -121,7 +121,7 @@
 }
 
 .home-ecosystem .metric-value {
-  font-size: 40px;
+  font-size: clamp(20px, 17.4px + 0.67vw, 26px);
   font-weight: 700;
   line-height: 1;
 }
@@ -129,7 +129,7 @@
 .home-ecosystem .metric-label {
   margin-top: 8px;
   color: var(--pn-text, #cbd5e1);
-  font-size: 15px;
+  font-size: 14px;
   text-transform: uppercase;
   letter-spacing: 1px;
 }
@@ -297,11 +297,6 @@
 @media (width >= 768px) {
   .home-ecosystem {
     padding: 72px 48px;
-  }
-
-  .home-ecosystem .content-info .title {
-    font-size: 43px;
-    letter-spacing: -3px;
   }
 
   .home-ecosystem .content-metrics {
