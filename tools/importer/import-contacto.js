@@ -2,38 +2,26 @@
 /* global WebImporter */
 
 // PARSER IMPORTS
-import formParser from './parsers/form.js';
+import contactFormParser from './parsers/contact-form.js';
 
 // TRANSFORMER IMPORTS
 import cleanupTransformer from './transformers/puntos-cleanup.js';
 import sectionsTransformer from './transformers/puntos-sections.js';
 
 const parsers = {
-  form: formParser,
+  'contact-form': contactFormParser,
 };
 
 const PAGE_TEMPLATE = {
   name: 'contacto',
-  description: 'Contact page: heading intro + multi-field contact form (AEM Forms).',
+  description: 'Contact page: validated contact form that swaps to a Thank You view on submit.',
   urls: [
     'http://adobe.puntos.net.s3-website-us-east-1.amazonaws.com/contacto',
   ],
   blocks: [
-    { name: 'form', instances: ['.ant-form.form-pn'] },
+    { name: 'contact-form', instances: ['.form-contact-pn', '.contact-pn', 'main.layout-content'] },
   ],
-  sections: [
-    {
-      id: 'contact',
-      name: 'Contact',
-      selector: 'main.layout-content',
-      style: 'dark',
-      blocks: ['form'],
-      defaultContent: [
-        'main.layout-content .title',
-        'main.layout-content .subtitle',
-      ],
-    },
-  ],
+  sections: [],
 };
 
 // Single section → sections transformer not needed (guard on length > 1)

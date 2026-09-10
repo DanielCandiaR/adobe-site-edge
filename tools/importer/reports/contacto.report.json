@@ -2,10 +2,12 @@
   "status": "success",
   "url": "http://adobe.puntos.net.s3-website-us-east-1.amazonaws.com/contacto",
   "path": "contacto",
-  "timestamp": "2026-08-25T23:56:41.879Z",
+  "timestamp": "2026-09-10T16:20:46.462Z",
   "title": "Ecosistema Adobe dentro de Puntos.net",
   "template": "contacto",
   "blocks": [
-    "form"
+    "contact-form",
+    "contact-form",
+    "contact-form"
   ]
 }

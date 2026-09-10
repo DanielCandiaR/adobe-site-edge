@@ -41,50 +41,12 @@ var CustomImportScript = (() => {
     default: () => import_contacto_default
   });
 
-  // tools/importer/parsers/form.js
-  var FORM_MODEL = {
-    submit: { label: "Enviar mensaje", type: "submit" },
-    fields: [
-      { type: "text", label: "Nombre Completo", name: "name", placeholder: "Nombre Completo", required: true },
-      { type: "email", label: "Correo electr\xF3nico", name: "email", placeholder: "correo@empresa.com", required: true },
-      { type: "text", label: "Empresa", name: "company", placeholder: "Mi Empresa", required: true },
-      { type: "tel", label: "Tel\xE9fono", name: "phone", placeholder: "+52 0123456789", required: true, constraints: "maxlength=14" },
-      {
-        type: "select",
-        label: "Asunto",
-        name: "subject",
-        placeholder: "Selecciona el motivo de tu mensaje",
-        required: true,
-        options: [
-          "Agendar una asesoria",
-          "Solicitar una cotizaci\xF3n",
-          "Redes sociales",
-          "Deja un mensaje",
-          "Llamenme"
-        ]
-      },
-      { type: "textarea", label: "Comentario", name: "comment", placeholder: "Cu\xE9ntanos sobre tu proyecto o consulta...", required: true, constraints: "maxlength=500" }
-    ]
-  };
+  // tools/importer/parsers/contact-form.js
   function parse(element, { document: document2 }) {
-    const domLabels = Array.from(element.querySelectorAll(".ant-form-item-label label")).map((l) => l.textContent.trim()).filter(Boolean);
-    const cells = [];
-    FORM_MODEL.fields.forEach((field, i) => {
-      const label = domLabels[i] || field.label;
-      const constraints = field.options ? field.options.join("; ") : field.constraints || "";
-      cells.push([
-        field.type,
-        label,
-        field.name,
-        field.placeholder || "",
-        field.required ? "true" : "false",
-        constraints
-      ]);
+    const block = WebImporter.Blocks.createBlock(document2, {
+      name: "contact-form",
+      cells: [[""]]
     });
-    const submitEl = element.querySelector('button[type="submit"], .btn-red, button');
-    const submitLabel = submitEl && submitEl.textContent.trim() || FORM_MODEL.submit.label;
-    cells.push(["submit", submitLabel, "submit", "", "", ""]);
-    const block = WebImporter.Blocks.createBlock(document2, { name: "form", cells });
     element.replaceWith(block);
   }
 
@@ -158,30 +120,18 @@ var CustomImportScript = (() => {
 
   // tools/importer/import-contacto.js
   var parsers = {
-    form: parse
+    "contact-form": parse
   };
   var PAGE_TEMPLATE = {
     name: "contacto",
-    description: "Contact page: heading intro + multi-field contact form (AEM Forms).",
+    description: "Contact page: validated contact form that swaps to a Thank You view on submit.",
     urls: [
       "http://adobe.puntos.net.s3-website-us-east-1.amazonaws.com/contacto"
     ],
     blocks: [
-      { name: "form", instances: [".ant-form.form-pn"] }
+      { name: "contact-form", instances: [".form-contact-pn", ".contact-pn", "main.layout-content"] }
     ],
-    sections: [
-      {
-        id: "contact",
-        name: "Contact",
-        selector: "main.layout-content",
-        style: "dark",
-        blocks: ["form"],
-        defaultContent: [
-          "main.layout-content .title",
-          "main.layout-content .subtitle"
-        ]
-      }
-    ]
+    sections: []
   };
   var transformers = [
     transform,

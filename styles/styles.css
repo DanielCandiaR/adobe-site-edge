@@ -47,6 +47,11 @@
   --pn-card-border: rgb(255 255 255 / 8%);
   --pn-card-hover-shadow: rgb(6 182 212 / 25%);
 
+  /* form inputs */
+  --pn-input-bg: #0a1428;
+  --pn-red-soft: rgb(239 68 68 / 10%);
+  --pn-red-border: rgb(239 68 68 / 20%);
+
   /* fonts */
   --body-font-family: 'Avenir Next', avenir-next-fallback, inter, sans-serif;
   --heading-font-family: 'Avenir Next', avenir-next-fallback, inter, sans-serif;
