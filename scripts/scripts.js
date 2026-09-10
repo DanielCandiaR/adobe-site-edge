@@ -215,6 +215,13 @@ function decorateContentLists(main) {
       if (number !== null) {
         li.classList.add('is-numbered');
         li.dataset.number = number;
+        // wrap the remaining nodes (title + description) into a single column
+        // so they stack vertically beside the number instead of sitting as
+        // separate flex columns.
+        const content = document.createElement('div');
+        content.className = 'list-item-content';
+        content.append(...li.childNodes);
+        li.append(content);
       }
     });
   });

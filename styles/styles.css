@@ -493,6 +493,7 @@ main :is(ul, ol):not(.container-list, nav :is(ul, ol), footer :is(ul, ol), .bloc
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-shrink: 0;
   box-sizing: border-box;
   width: 28px;
   height: 28px;
@@ -503,4 +504,27 @@ main :is(ul, ol):not(.container-list, nav :is(ul, ol), footer :is(ul, ol), .bloc
   font-weight: 700;
   line-height: 1;
   mask: none;
+}
+
+/* title + description stack in a single column beside the number */
+main :is(ul, ol):not(.container-list, nav :is(ul, ol), footer :is(ul, ol), .block > :is(ul, ol)) > li.is-numbered .list-item-content {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+/* first line = title (white, bold), following lines = description */
+main :is(ul, ol):not(.container-list, nav :is(ul, ol), footer :is(ul, ol), .block > :is(ul, ol)) > li.is-numbered .list-item-content > :first-child {
+  color: #fff;
+  font-weight: 700;
+}
+
+main :is(ul, ol):not(.container-list, nav :is(ul, ol), footer :is(ul, ol), .block > :is(ul, ol)) > li.is-numbered .list-item-content > :not(:first-child) {
+  color: var(--pn-text);
+  font-weight: 400;
+}
+
+main :is(ul, ol):not(.container-list, nav :is(ul, ol), footer :is(ul, ol), .block > :is(ul, ol)) > li.is-numbered .list-item-content p {
+  margin: 0;
 }
