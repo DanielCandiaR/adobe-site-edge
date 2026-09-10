@@ -514,15 +514,17 @@ main :is(ul, ol):not(.container-list, nav :is(ul, ol), footer :is(ul, ol), .bloc
   min-width: 0;
 }
 
-/* first line = title (white, bold), following lines = description */
+/* first line = title (bold, inherits the section text colour so it stays
+   visible on light or dark backgrounds), following lines = description */
 main :is(ul, ol):not(.container-list, nav :is(ul, ol), footer :is(ul, ol), .block > :is(ul, ol)) > li.is-numbered .list-item-content > :first-child {
-  color: #fff;
+  color: inherit;
   font-weight: 700;
 }
 
 main :is(ul, ol):not(.container-list, nav :is(ul, ol), footer :is(ul, ol), .block > :is(ul, ol)) > li.is-numbered .list-item-content > :not(:first-child) {
-  color: var(--pn-text);
+  color: inherit;
   font-weight: 400;
+  opacity: 0.85;
 }
 
 main :is(ul, ol):not(.container-list, nav :is(ul, ol), footer :is(ul, ol), .block > :is(ul, ol)) > li.is-numbered .list-item-content p {
