@@ -51,7 +51,16 @@ var CustomImportScript = (() => {
     const contentCell = [];
     if (titleEl) {
       const heading = document2.createElement("h1");
-      heading.append(...titleEl.childNodes);
+      const highlight = titleEl.querySelector('.color-pn-bright-blue, [class*="bright-blue"], span');
+      if (highlight) {
+        const before = titleEl.textContent.replace(highlight.textContent, "").trim();
+        if (before) heading.append(`${before} `);
+        const em = document2.createElement("em");
+        em.textContent = highlight.textContent.trim();
+        heading.append(em);
+      } else {
+        heading.append(...titleEl.childNodes);
+      }
       contentCell.push(heading);
     }
     if (description) {

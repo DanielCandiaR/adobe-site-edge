@@ -23,7 +23,19 @@ export default function parse(element, { document }) {
 
   if (titleEl) {
     const heading = document.createElement('h1');
-    heading.append(...titleEl.childNodes);
+    // preserve the highlighted part: EDS plain content can't carry a custom
+    // span class, so convert the bright-blue span into <em> (the block styles
+    // <em> in the title as the highlight colour).
+    const highlight = titleEl.querySelector('.color-pn-bright-blue, [class*="bright-blue"], span');
+    if (highlight) {
+      const before = titleEl.textContent.replace(highlight.textContent, '').trim();
+      if (before) heading.append(`${before} `);
+      const em = document.createElement('em');
+      em.textContent = highlight.textContent.trim();
+      heading.append(em);
+    } else {
+      heading.append(...titleEl.childNodes);
+    }
     contentCell.push(heading);
   }
 
