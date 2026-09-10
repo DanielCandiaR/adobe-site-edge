@@ -1,0 +1,63 @@
+/* title-page — section title with a blue accent line (TitlePageComponent). */
+.title-page {
+  --title-line-color: var(--pn-primary-blue, #005eb8);
+
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: center;
+  text-align: center;
+}
+
+.title-page .title-page-content {
+  margin: 0;
+  color: var(--pn-text, #cbd5e1);
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.title-page .title-page-content :is(h1, h2, h3, h4, p) {
+  margin: 0;
+  font: inherit;
+  color: inherit;
+}
+
+/* accent line */
+.title-page .title-page-line {
+  display: none;
+  width: 60px;
+  height: 4px;
+  background: var(--title-line-color);
+}
+
+.title-page.has-line .title-page-line {
+  display: block;
+}
+
+/* ---- alignment ---- */
+.title-page.left {
+  align-items: flex-start;
+  text-align: left;
+}
+
+.title-page.right {
+  align-items: flex-end;
+  text-align: right;
+}
+
+/* ---- small (column subtitle) ---- */
+.title-page.small .title-page-content {
+  font-size: 20px;
+}
+
+/* ---- desktop heading size ---- */
+@media (width >= 900px) {
+  .title-page .title-page-content {
+    font-size: 41px;
+  }
+
+  .title-page.small .title-page-content {
+    font-size: 20px;
+  }
+}

@@ -180,6 +180,23 @@ var CustomImportScript = (() => {
     element.replaceWith(block);
   }
 
+  // tools/importer/parsers/title-page.js
+  function parse4(element, { document: document2 }) {
+    const content = element.querySelector('.title-page-content, [class*="content"]');
+    const text = (content ? content.textContent : element.textContent).trim();
+    if (!text) {
+      element.remove();
+      return;
+    }
+    const cn = element.className || "";
+    const variants = /title-page-line-bottom/.test(cn) ? "line, line-bottom, left, small" : "line, center";
+    const block = WebImporter.Blocks.createBlock(document2, {
+      name: `title-page (${variants})`,
+      cells: [[text]]
+    });
+    element.replaceWith(block);
+  }
+
   // tools/importer/transformers/puntos-cleanup.js
   var TransformHook = {
     beforeTransform: "beforeTransform",
@@ -252,7 +269,8 @@ var CustomImportScript = (() => {
   var parsers = {
     "hero-partner": parse,
     "cards-benefits": parse2,
-    "cards-solution": parse3
+    "cards-solution": parse3,
+    "title-page": parse4
   };
   var PAGE_TEMPLATE = {
     name: "adobe-partner-landing",
@@ -267,10 +285,18 @@ var CustomImportScript = (() => {
     ],
     blocks: [
       { name: "hero-partner", instances: [".hero-pn.hero-left"] },
+      // only the big centered section titles (line-top); column subtitles
+      // (line-bottom) stay inside their cards-benefits column as an h3
+      { name: "title-page", instances: [".title-page.title-page-line-top"] },
       { name: "cards-benefits", instances: [".bg-pn-second.py-13 .ant-col.ant-col-lg-12"] },
       { name: "cards-solution", instances: [".bg-pn.py-13 .container-tools .ant-col"] }
     ],
-    sections: []
+    // three visual bands, matching the source shell classes
+    sections: [
+      { id: "hero", name: "Hero", selector: ".cmsdam-pn > .border-pn-b-2:first-child", style: "bg-pn" },
+      { id: "why", name: "Why", selector: ".bg-pn-second.py-13", style: "bg-pn-second" },
+      { id: "tools", name: "Tools", selector: ".bg-pn.py-13", style: "bg-pn" }
+    ]
   };
   var transformers = [
     transform,

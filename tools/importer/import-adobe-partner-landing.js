@@ -5,6 +5,7 @@
 import heroPartnerParser from './parsers/hero-partner.js';
 import cardsBenefitsParser from './parsers/cards-benefits.js';
 import cardsSolutionParser from './parsers/cards-solution.js';
+import titlePageParser from './parsers/title-page.js';
 
 // TRANSFORMER IMPORTS
 import cleanupTransformer from './transformers/puntos-cleanup.js';
@@ -14,6 +15,7 @@ const parsers = {
   'hero-partner': heroPartnerParser,
   'cards-benefits': cardsBenefitsParser,
   'cards-solution': cardsSolutionParser,
+  'title-page': titlePageParser,
 };
 
 const PAGE_TEMPLATE = {
@@ -29,10 +31,18 @@ const PAGE_TEMPLATE = {
   ],
   blocks: [
     { name: 'hero-partner', instances: ['.hero-pn.hero-left'] },
+    // only the big centered section titles (line-top); column subtitles
+    // (line-bottom) stay inside their cards-benefits column as an h3
+    { name: 'title-page', instances: ['.title-page.title-page-line-top'] },
     { name: 'cards-benefits', instances: ['.bg-pn-second.py-13 .ant-col.ant-col-lg-12'] },
     { name: 'cards-solution', instances: ['.bg-pn.py-13 .container-tools .ant-col'] },
   ],
-  sections: [],
+  // three visual bands, matching the source shell classes
+  sections: [
+    { id: 'hero', name: 'Hero', selector: '.cmsdam-pn > .border-pn-b-2:first-child', style: 'bg-pn' },
+    { id: 'why', name: 'Why', selector: '.bg-pn-second.py-13', style: 'bg-pn-second' },
+    { id: 'tools', name: 'Tools', selector: '.bg-pn.py-13', style: 'bg-pn' },
+  ],
 };
 
 const transformers = [
