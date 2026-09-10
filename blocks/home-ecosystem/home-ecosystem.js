@@ -48,6 +48,9 @@ const LINES = [
 
 const HUB_LOGO = '<svg viewBox="0 0 1024 1024" width="1024" height="1024" aria-hidden="true"><circle fill="#f00" cx="512" cy="512" r="512"/><path fill="#fff" d="M578.2 298.6h189.9v426.8L578.2 298.6zM445.9 298.6H256v426.8L445.9 298.6zM512.1 456.5l119.5 268.9h-81.1L516.4 640h-87.5L512.1 456.5z"/></svg>';
 
+// Adobe partner mark (red triangle) used in the partner badge
+const ADOBE_MARK = '<svg viewBox="0 0 512 512" width="512" height="512" fill-rule="evenodd" clip-rule="evenodd" aria-hidden="true"><path d="M302.562 477.27L266.27 376.206h-91.166l76.604-192.875 116.25 293.937h138.04L321.729 34.73H191.604L6 477.269h296.562z" fill="#eb1000"/></svg>';
+
 function iconSvg(vb, d) {
   return `<svg viewBox="${vb}" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="${d}"/></svg>`;
 }
@@ -94,28 +97,36 @@ export default function decorate(block) {
     } else if (node.tagName === 'UL' || node.tagName === 'OL') {
       node.classList.add('home-check-list');
       info.append(node);
-    } else if (node.tagName === 'P' && node.querySelector('picture, img')) {
-      // partner badge: picture + text
+    } else if (node.tagName === 'P'
+      && (node.querySelector('picture, img') || /partner|platinum/i.test(node.textContent))) {
+      // partner badge — always render the Adobe mark + a two-line label
       const badge = document.createElement('div');
       badge.className = 'partner-badge';
+
       const iconWrap = document.createElement('div');
       iconWrap.className = 'partner-icon';
       const pic = node.querySelector('picture, img');
-      iconWrap.append(pic);
+      if (pic) iconWrap.append(pic);
+      else iconWrap.innerHTML = ADOBE_MARK;
+
+      // split the text: "Adobe Platinum" (label) + the rest ("Solution Partner")
+      const full = node.textContent.replace(/\s+/g, ' ').trim();
+      const m = full.match(/^(.*?platinum)\s*(.*)$/i);
+      const labelText = m ? m[1].trim() : full;
+      const subText = m ? m[2].trim() : '';
+
       const textWrap = document.createElement('div');
-      // remaining text: first strong/line = label, rest = sub text
       const label = document.createElement('span');
       label.className = 'partner-label';
-      const sub = document.createElement('div');
-      sub.className = 'partner-text';
-      const strong = node.querySelector('strong');
-      if (strong) {
-        label.textContent = strong.textContent;
-        strong.remove();
+      label.textContent = labelText;
+      textWrap.append(label);
+      if (subText) {
+        const sub = document.createElement('div');
+        sub.className = 'partner-text';
+        sub.textContent = subText;
+        textWrap.append(sub);
       }
-      sub.textContent = node.textContent.trim();
-      if (label.textContent) textWrap.append(label);
-      textWrap.append(sub);
+
       badge.append(iconWrap, textWrap);
       info.append(badge);
     } else {

@@ -83,7 +83,8 @@
   animation: home-eco-pulse 3s ease-in-out infinite;
 }
 
-.home-ecosystem .partner-image {
+.home-ecosystem .partner-image,
+.home-ecosystem .partner-icon svg {
   width: 70%;
   height: 70%;
   object-fit: contain;
