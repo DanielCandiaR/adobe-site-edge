@@ -34,9 +34,19 @@
   /* backgrounds */
   --pn-bg: #001a32;
   --pn-bg-2: #032141;
+  --pn-bg-3: #10243d;
 
   /* text */
   --pn-text: #cbd5e1;
+
+  /* white + alpha */
+  --pn-white: #fff;
+  --pn-white-05: rgb(255 255 255 / 5%);
+  --pn-white-10: rgb(255 255 255 / 10%);
+
+  /* CTA (header button) */
+  --pn-cta-bg: #ef4444;
+  --pn-cta-bg-hover: #dc2626;
 
   /* borders */
   --pn-border: #2d3e5a;

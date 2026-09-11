@@ -1,13 +1,7 @@
 /* Puntos.net footer — replicates the source React/Ant Design footer */
 /* stylelint-disable no-descending-specificity */
-:root {
-  --pn-primary-deep: #001a32;
-  --pn-border: #2d3e5a;
-  --pn-bright-blue: #009ace;
-  --pn-primary-blue: #005eb8;
-  --pn-white: #fff;
-}
 
+/* palette vars (--pn-*) come from styles.css */
 footer {
   background-color: var(--pn-primary-deep);
   border-top: 2px solid var(--pn-border);

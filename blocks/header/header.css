@@ -1,15 +1,7 @@
 /* Puntos.net header — replicates the source React/Ant Design header */
 /* stylelint-disable no-descending-specificity */
 :root {
-  --pn-primary-deep: #001a32;
-  --pn-border: #2d3e5a;
-  --pn-bright-blue: #009ace;
-  --pn-primary-blue: #005eb8;
-  --pn-cta-bg: #ef4444;
-  --pn-cta-bg-hover: #dc2626;
-  --pn-white: #fff;
-  --pn-white-05: rgb(255 255 255 / 5%);
-  --pn-white-10: rgb(255 255 255 / 10%);
+  /* palette vars (--pn-*) come from styles.css; only header-specific here */
   --pn-header-height: 102px;
 }
 
@@ -39,7 +31,7 @@ header nav {
   height: var(--pn-header-height);
   padding: 0 24px;
   font-family: var(--body-font-family);
-  color: #cbd5e1;
+  color: var(--pn-text, #cbd5e1);
 }
 
 header nav[aria-expanded='true'] {
@@ -563,7 +555,7 @@ header nav .nav-tools .nav-lang > ul > li a {
   display: block;
   padding: 8px 12px;
   border-radius: 6px;
-  color: #cbd5e1;
+  color: var(--pn-text, #cbd5e1);
   font-size: 13px;
   font-weight: 700;
   text-decoration: none;
