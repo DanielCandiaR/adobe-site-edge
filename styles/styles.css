@@ -486,7 +486,7 @@ main :is(ul, ol):not(.container-list, nav :is(ul, ol), footer :is(ul, ol), .bloc
   padding: 0;
   display: flex;
   flex-direction: column;
-  gap: 0;
+  gap: 8px;
 }
 
 main :is(ul, ol):not(.container-list, nav :is(ul, ol), footer :is(ul, ol), .block > :is(ul, ol)) > li {
@@ -516,7 +516,11 @@ main :is(ul, ol):not(.container-list, nav :is(ul, ol), footer :is(ul, ol), .bloc
   align-items: center;
   gap: 12px;
   min-height: 0;
-  margin-bottom: 16px;
+}
+
+/* numbered content lists breathe more between items */
+main :is(ul, ol):not(.container-list, nav :is(ul, ol), footer :is(ul, ol), .block > :is(ul, ol)):has(> li.is-numbered) {
+  gap: 20px;
 }
 
 main :is(ul, ol):not(.container-list, nav :is(ul, ol), footer :is(ul, ol), .block > :is(ul, ol)) > li.is-numbered::before {
