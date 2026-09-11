@@ -27,7 +27,7 @@
 /* column title (mirrors TitlePageComponent: line-bottom, left) */
 .cards-benefits .cards-benefits-card-body :is(h2, h3, h4) {
   position: relative;
-  margin: 0 0 20px;
+  margin: 0 0 16px;
   padding-bottom: 16px;
   color: var(--pn-text, #cbd5e1);
   font-size: 20px;
