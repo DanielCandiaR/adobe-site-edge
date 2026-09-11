@@ -18,12 +18,13 @@ export default function decorate(block) {
     const item = document.createElement('li');
     item.className = 'item-list';
 
+    const cells = [...row.querySelectorAll(':scope > div')];
     const content = document.createElement('div');
     content.className = 'container-content';
     const title = document.createElement('div');
     title.className = 'title-content';
-    const cell = row.querySelector(':scope > div') || row;
-    title.append(...cell.childNodes);
+    const titleCell = cells[0] || row;
+    title.append(...titleCell.childNodes);
 
     // detect a leading number in the first text node of the title
     const firstText = title.querySelector('p') || title;
@@ -42,6 +43,15 @@ export default function decorate(block) {
     }
 
     content.append(title);
+
+    // optional second cell = description, stacked under the title
+    if (cells[1] && cells[1].textContent.trim()) {
+      const text = document.createElement('div');
+      text.className = 'text-content';
+      text.append(...cells[1].childNodes);
+      content.append(text);
+    }
+
     item.append(vineta, content);
     list.append(item);
   });

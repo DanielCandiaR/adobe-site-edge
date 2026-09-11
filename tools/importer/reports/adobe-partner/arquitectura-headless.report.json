@@ -2,13 +2,18 @@
   "status": "success",
   "url": "http://adobe.puntos.net.s3-website-us-east-1.amazonaws.com/adobe-partner/arquitectura-headless",
   "path": "adobe-partner/arquitectura-headless",
-  "timestamp": "2026-09-10T23:44:40.957Z",
+  "timestamp": "2026-09-11T19:12:58.360Z",
   "title": "Ecosistema Adobe dentro de Puntos.net",
-  "template": "adobe-partner-landing",
+  "template": "headless",
   "blocks": [
     "hero-partner",
     "title-page",
     "title-page",
-    "title-page"
+    "title-page",
+    "timeline-cards",
+    "browser-frame",
+    "browser-frame",
+    "text-list",
+    "text-list"
   ]
 }

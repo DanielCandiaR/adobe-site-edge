@@ -17,9 +17,17 @@ export default function parse(element, { document }) {
   }
 
   const cn = element.className || '';
-  const variants = /title-page-line-bottom/.test(cn)
-    ? 'line, line-bottom, left, small'
-    : 'line, center';
+  let variants;
+  if (/title-page-line-bottom/.test(cn)) {
+    // small column subtitle (line under, left)
+    variants = 'line, line-bottom, left, small';
+  } else if (/title-page-text-left|title-page-line-left/.test(cn)) {
+    // big section title, left-aligned (line on top)
+    variants = 'line, left';
+  } else {
+    // big section title, centered
+    variants = 'line, center';
+  }
 
   const block = WebImporter.Blocks.createBlock(document, {
     name: `title-page (${variants})`,
