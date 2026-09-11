@@ -2,13 +2,16 @@
    column (title + blue accent underline) followed by text or a check-list.
    Transparent (no card box); two columns from the lg breakpoint. */
 
+.cards-benefits,
+.cards-benefits-wrapper {
+  width: 100%;
+}
+
 .cards-benefits > ul {
   list-style: none;
   margin: 0;
   padding: 0;
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 30px;
+  display: block;
 }
 
 .cards-benefits > ul > li {
@@ -51,13 +54,20 @@
 }
 
 /* the "why" section holds several single-item cards-benefits blocks as
-   sibling wrappers; lay them out two-per-row on desktop */
-@media (width >= 900px) {
+   sibling wrappers; two-per-row from lg (992px), matching the source */
+@media (width >= 992px) {
   .section.cards-benefits-container {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 44px 30px;
     align-items: start;
+  }
+
+  /* wrappers fill their grid cell edge-to-edge (no stray auto margins) */
+  .section.cards-benefits-container > .cards-benefits-wrapper {
+    width: 100%;
+    max-width: none;
+    margin: 0;
   }
 
   /* full-width rows: the section title, intro paragraph, and metadata */

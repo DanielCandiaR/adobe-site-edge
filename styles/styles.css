@@ -367,18 +367,43 @@ main .section.bg-pn-second-dot,
 main .section.bg-pn-grad,
 main .section.bg-pn-grad-dot {
   margin: 0;
-  padding: 96px 0;
+
+  /* fluid vertical rhythm matching the source: 40px (mobile) → 80px (desktop) */
+  padding: clamp(40px, 24px + 4.5vw, 80px) 24px;
   color: var(--pn-text);
 }
 
-/* keep the inner content width consistent with the source (1280) */
-main .section.bg-pn > div,
-main .section.bg-pn-dot > div,
-main .section.bg-pn-second > div,
-main .section.bg-pn-second-dot > div,
-main .section.bg-pn-grad > div,
-main .section.bg-pn-grad-dot > div {
+@media (width >= 768px) {
+  main .section.bg-pn,
+  main .section.bg-pn-dot,
+  main .section.bg-pn-second,
+  main .section.bg-pn-second-dot,
+  main .section.bg-pn-grad,
+  main .section.bg-pn-grad-dot {
+    padding-inline: 48px;
+  }
+}
+
+/* keep the inner content width consistent with the source (1280), centered.
+   Card-grid sections manage their own layout, so exclude them here. */
+main .section.bg-pn:not(.cards-benefits-container, .cards-solution-container) > div,
+main .section.bg-pn-dot:not(.cards-benefits-container, .cards-solution-container) > div,
+main .section.bg-pn-second:not(.cards-benefits-container, .cards-solution-container) > div,
+main .section.bg-pn-second-dot:not(.cards-benefits-container, .cards-solution-container) > div,
+main .section.bg-pn-grad:not(.cards-benefits-container, .cards-solution-container) > div,
+main .section.bg-pn-grad-dot:not(.cards-benefits-container, .cards-solution-container) > div {
   max-width: 1280px;
+  margin-inline: auto;
+}
+
+/* card-grid sections stay full-bleed (coloured band); their padding + the
+   grid handle content width. Cap very wide viewports via a max content
+   width using the section's own inline padding auto-scaling instead. */
+@media (width >= 1376px) {
+  main .section.cards-benefits-container,
+  main .section.cards-solution-container {
+    padding-inline: calc((100% - 1280px) / 2);
+  }
 }
 
 /* solid navy */
