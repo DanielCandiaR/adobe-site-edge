@@ -1,11 +1,13 @@
 /* cards-solution — the Adobe product cards ("how we solve this"): translucent
    dark cards with an icon, title, optional subtitle and description. Several
-   single-item blocks sit as sibling wrappers; laid out in a 3-column grid. */
+   single-item blocks sit as sibling wrappers laid out with flexbox:
+   1 col (mobile) → 2 (md 768) → 3 (xxl 1600), matching the source. */
 
 .cards-solution > ul {
   list-style: none;
   margin: 0;
   padding: 0;
+  height: 100%;
 }
 
 .cards-solution > ul > li {
@@ -13,7 +15,7 @@
   flex-direction: column;
   gap: 16px;
   height: 100%;
-  padding: 20px;
+  padding: 24px;
   border: 1px solid var(--pn-card-border, rgb(255 255 255 / 8%));
   border-radius: 24px;
   background: var(--pn-card-bg, rgb(31 41 55 / 45%));
@@ -63,32 +65,52 @@
   font-size: 19px;
 }
 
-/* the "tools" section holds several single-item cards-solution blocks as
-   sibling wrappers; lay them out three-per-row on desktop */
+/* ---- flex layout of the sibling card wrappers ---- */
+.section.cards-solution-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  align-items: stretch;
+  box-sizing: border-box;
+}
+
+.section.cards-solution-container > * {
+  box-sizing: border-box;
+}
+
+/* title / intro / metadata take a full row */
+.section.cards-solution-container > .title-page-wrapper,
+.section.cards-solution-container > .default-content-wrapper,
+.section.cards-solution-container > .section-metadata-wrapper {
+  flex: 0 0 100%;
+  width: 100%;
+  max-width: none;
+  margin: 0;
+}
+
+/* each card wrapper fills a flex track. A fixed basis + grow makes the row
+   count fall out of the available width (predictable, no % ambiguity):
+   mobile 1-up, ~2-up from 768, 3-up from 1600. */
+.section.cards-solution-container > .cards-solution-wrapper {
+  flex: 1 1 100%;
+  min-width: 0;
+  max-width: 100%;
+  margin: 0;
+  display: flex;
+}
+
+/* 2 columns from md (now that box-sizing is fixed, % basis is reliable) */
 @media (width >= 768px) {
-  .section.cards-solution-container {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 15px;
-    align-items: stretch;
-  }
-
-  .section.cards-solution-container > .title-page-wrapper,
-  .section.cards-solution-container > .default-content-wrapper,
-  .section.cards-solution-container > .section-metadata-wrapper {
-    grid-column: 1 / -1;
-  }
-
-  /* wrappers fill their grid cell edge-to-edge */
   .section.cards-solution-container > .cards-solution-wrapper {
-    width: 100%;
-    max-width: none;
-    margin: 0;
+    flex: 0 1 calc((100% - 15px) / 2);
+    max-width: calc((100% - 15px) / 2);
   }
 }
 
+/* 3 columns from xxl (1600), matching the source */
 @media (width >= 1600px) {
-  .section.cards-solution-container {
-    grid-template-columns: repeat(3, 1fr);
+  .section.cards-solution-container > .cards-solution-wrapper {
+    flex: 0 1 calc((100% - 30px) / 3);
+    max-width: calc((100% - 30px) / 3);
   }
 }

@@ -399,11 +399,12 @@ main .section.bg-pn-grad-dot:not(.cards-benefits-container, .cards-solution-cont
 /* card-grid sections stay full-bleed (coloured band); their padding + the
    grid handle content width. Cap very wide viewports via a max content
    width using the section's own inline padding auto-scaling instead. */
-@media (width >= 1376px) {
-  main .section.cards-benefits-container,
-  main .section.cards-solution-container {
-    padding-inline: calc((100% - 1280px) / 2);
-  }
+
+/* card-grid sections: keep the coloured band full-bleed, but center the
+   flex content at max 1280 with fluid side padding (24px → auto to 1280) */
+main .section.cards-benefits-container,
+main .section.cards-solution-container {
+  padding-inline: max(24px, (100% - 1280px) / 2);
 }
 
 /* solid navy */
