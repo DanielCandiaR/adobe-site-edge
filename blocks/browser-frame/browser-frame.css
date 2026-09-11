@@ -170,3 +170,46 @@
     animation: none;
   }
 }
+
+/* ---- two-column layout for the model / implementation sections ----
+   A section holding both a text-list and a browser-frame lays them out as
+   two columns (list beside the browser mock) from xl (1200px), matching the
+   source `sm=24 xl=12`. Below that they stack. */
+main .section.text-list-container.browser-frame-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 35px;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+main .section.text-list-container.browser-frame-container > * {
+  box-sizing: border-box;
+}
+
+/* title + intro span the full row */
+main .section.text-list-container.browser-frame-container > .title-page-wrapper,
+main .section.text-list-container.browser-frame-container > .default-content-wrapper,
+main .section.text-list-container.browser-frame-container > .section-metadata-wrapper {
+  flex: 0 0 100%;
+  width: 100%;
+  max-width: none;
+  margin: 0;
+}
+
+/* the list + browser-frame columns: full width until xl, then split 50/50 */
+main .section.text-list-container.browser-frame-container > .text-list-wrapper,
+main .section.text-list-container.browser-frame-container > .browser-frame-wrapper {
+  flex: 1 1 100%;
+  min-width: 0;
+  max-width: 100%;
+  margin: 0;
+}
+
+@media (width >= 1200px) {
+  main .section.text-list-container.browser-frame-container > .text-list-wrapper,
+  main .section.text-list-container.browser-frame-container > .browser-frame-wrapper {
+    flex: 1 1 calc((100% - 35px) / 2);
+    max-width: calc((100% - 35px) / 2);
+  }
+}
