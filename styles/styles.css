@@ -513,7 +513,7 @@ main :is(ul, ol):not(.container-list, nav :is(ul, ol), footer :is(ul, ol), .bloc
 
 /* numbered content items: red circle with the number instead of the check */
 main :is(ul, ol):not(.container-list, nav :is(ul, ol), footer :is(ul, ol), .block > :is(ul, ol)) > li.is-numbered {
-  align-items: flex-start;
+  align-items: center;
   gap: 12px;
   min-height: 0;
   margin-bottom: 16px;

@@ -83,7 +83,7 @@
    Applied per item when the text starts with a number. */
 .text-list .item-list.is-numbered {
   gap: 12px;
-  align-items: flex-start;
+  align-items: center;
   min-height: 0;
 }
 
