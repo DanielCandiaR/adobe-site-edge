@@ -3,18 +3,29 @@
    single-item blocks sit as sibling wrappers laid out with flexbox:
    1 col (mobile) → 2 (md 768) → 3 (xxl 1600), matching the source. */
 
+/* the block + its list fill the wrapper so equal-height stretch propagates
+   down to the card <li> without the card overflowing its flex track */
+.cards-solution {
+  display: flex;
+  width: 100%;
+}
+
 .cards-solution > ul {
   list-style: none;
   margin: 0;
   padding: 0;
-  height: 100%;
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
 }
 
 .cards-solution > ul > li {
   display: flex;
   flex-direction: column;
+  flex: 1;
   gap: 16px;
-  height: 100%;
+  box-sizing: border-box;
   padding: 24px;
   border: 1px solid var(--pn-card-border, rgb(255 255 255 / 8%));
   border-radius: 24px;
