@@ -105,11 +105,20 @@
     flex: 0 1 calc((100% - 15px) / 2);
     max-width: calc((100% - 15px) / 2);
   }
+
+  /* the 7th (last) card spans the full row in the tablet range, as the source
+     does (md={24}); a leftover odd card fills the width instead of sitting
+     half-empty */
+  .section.cards-solution-container > .cards-solution-wrapper:last-of-type {
+    flex-basis: 100%;
+    max-width: 100%;
+  }
 }
 
-/* 3 columns from xxl (1600), matching the source */
+/* 3 columns from xxl (1600), matching the source; last card back to 1/3 */
 @media (width >= 1600px) {
-  .section.cards-solution-container > .cards-solution-wrapper {
+  .section.cards-solution-container > .cards-solution-wrapper,
+  .section.cards-solution-container > .cards-solution-wrapper:last-of-type {
     flex: 0 1 calc((100% - 30px) / 3);
     max-width: calc((100% - 30px) / 3);
   }
