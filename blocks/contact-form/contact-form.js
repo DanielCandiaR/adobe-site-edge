@@ -12,6 +12,8 @@
  * thankyou-pn, btn-red, bg-pn-dot) so the styling matches exactly.
  */
 
+import { getLanguage, applyLanguage } from '../../scripts/i18n.js';
+
 // ---- inline Ant Design icons used as input prefixes ----
 const ICONS = {
   user: '<svg viewBox="64 64 896 896" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M858.5 763.6a374 374 0 00-80.6-119.5 375.63 375.63 0 00-119.5-80.6c-.4-.2-.8-.3-1.2-.5C719.5 518 760 444.7 760 362c0-137-111-248-248-248S264 225 264 362c0 82.7 40.5 156 102.8 201.1-.4.2-.8.3-1.2.5-44.8 18.9-85 46-119.5 80.6a375.63 375.63 0 00-80.6 119.5A371.7 371.7 0 00136 901.8a8 8 0 008 8.2h60c4.4 0 7.9-3.5 8-7.8 2-77.2 33-149.5 87.8-204.3 56.7-56.7 132-87.9 212.2-87.9s155.5 31.2 212.2 87.9C779 752.7 810 825 812 902.2c.1 4.3 3.6 7.8 8 7.8h60a8 8 0 008-8.2c-1-47.8-10.9-94.3-29.5-138.2zM512 534c-45.9 0-89.1-17.9-121.6-50.4S340 407.9 340 362c0-45.9 17.9-89.1 50.4-121.6S466.1 190 512 190s89.1 17.9 121.6 50.4S684 316.1 684 362c0 45.9-17.9 89.1-50.4 121.6S557.9 534 512 534z"/></svg>',
@@ -34,15 +36,15 @@ const SUBJECT_OPTIONS = [
 ];
 
 const STEPS = [
-  { title: 'Requirement Review', description: 'Our team reviews your information and project requirements to select the right expert for your industry.' },
-  { title: 'Customized Response', description: 'We prepare a technical response tailored to your business context and LATAM market specifics.' },
-  { title: 'Direct Contact', description: "You'll hear from an Adobe Certified Architect via your provided email or phone number." },
+  { title: 'Revisión de requerimientos', description: 'Nuestro equipo revisa tu información y los requisitos del proyecto para seleccionar al experto adecuado para tu industria.' },
+  { title: 'Respuesta personalizada', description: 'Preparamos una respuesta técnica adaptada al contexto de tu negocio y a las particularidades del mercado LATAM.' },
+  { title: 'Contacto directo', description: 'Un arquitecto certificado por Adobe se comunicará contigo a través del correo o teléfono que nos proporcionaste.' },
 ];
 
 const BADGES = [
   { text: 'Adobe Platinum Partner', d: '<path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>' },
-  { text: 'GDPR & LGPD Compliant', d: '<path d="M12 22C12 22 20 18 20 12V5L12 2L4 5V12C4 18 12 22 12 22Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 8V12L14 14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>' },
-  { text: '24/7 Technical Support', d: '<path d="M3 9H21M6 3H7M17 3H18M12 5V8M12 21C7 21 5 19 5 14V9H19V14C19 19 17 21 12 21Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M8 16H8.01" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M16 16H16.01" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>' },
+  { text: 'Cumplimiento GDPR y LGPD', d: '<path d="M12 22C12 22 20 18 20 12V5L12 2L4 5V12C4 18 12 22 12 22Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 8V12L14 14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>' },
+  { text: 'Soporte técnico 24/7', d: '<path d="M3 9H21M6 3H7M17 3H18M12 5V8M12 21C7 21 5 19 5 14V9H19V14C19 19 17 21 12 21Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M8 16H8.01" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M16 16H16.01" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>' },
 ];
 
 // key filters (mirror the React onKeyDown handlers)
@@ -249,12 +251,12 @@ function buildThankYou() {
   root.innerHTML = `
     <div class="thankyou-icon">
       <div class="icon-outer"><div class="icon-inner"><span class="check">✓</span></div></div>
-      <h1 class="title">Thank You for Your Interest</h1>
-      <p class="subtitle">Your consultation request has been received. Our Adobe Platinum experts are already reviewing your project goals.</p>
+      <h1 class="title">Gracias por tu interés</h1>
+      <p class="subtitle">Hemos recibido tu solicitud de consulta. Nuestros expertos Adobe Platinum ya están revisando los objetivos de tu proyecto.</p>
     </div>
     <div class="center-container mt-10">
       <div class="thankyou-card">
-        <div class="card-title"><span class="card-icon">${PROFILE_ICON}</span>What Happens Next</div>
+        <div class="card-title"><span class="card-icon">${PROFILE_ICON}</span>Qué sigue ahora</div>
         <ol class="custom-steps">
           ${STEPS.map((s) => `<li class="step-item"><div class="step-title">${s.title}</div><div class="step-desc">${s.description}</div></li>`).join('')}
         </ol>
@@ -265,24 +267,24 @@ function buildThankYou() {
         <div class="callout-content">
           <span class="callout-icon">⚡</span>
           <div class="callout-text">
-            <div class="callout-title">Expected Response Time: 2 Hours</div>
-            <div class="callout-subtitle">During business hours (9AM-6PM LATAM time, Mon-Fri)</div>
+            <div class="callout-title">Tiempo de respuesta estimado: 2 horas</div>
+            <div class="callout-subtitle">En horario laboral (9:00-18:00 hora LATAM, lun-vie)</div>
           </div>
         </div>
       </div>
     </div>
     <div class="center-container mt-10">
       <div class="thankyou-actions">
-        <button class="btn-outline-cyan">Explore Our Insights</button>
-        <button class="btn-outline-green">View Case Studies</button>
-        <a class="btn-red" href="/">Return to Home</a>
+        <button class="btn-outline-cyan">Explora nuestros insights</button>
+        <button class="btn-outline-green">Ver casos de éxito</button>
+        <a class="btn-red" href="/">Volver al inicio</a>
       </div>
     </div>
     <div class="center-container mt-10">
       <div class="thankyou-trust">
-        <span class="trust-title">Questions?</span>
-        <p class="trust-text">Check our FAQ or reach out directly via our contact page. We're here to help clarify any questions about your digital transformation roadmap and Adobe ecosystem strategy.</p>
-        <a href="/" class="trust-link">Still have questions? Click here</a>
+        <span class="trust-title">¿Preguntas?</span>
+        <p class="trust-text">Consulta nuestras preguntas frecuentes o escríbenos directamente desde nuestra página de contacto. Estamos aquí para ayudarte a resolver cualquier duda sobre tu hoja de ruta de transformación digital y tu estrategia en el ecosistema Adobe.</p>
+        <a href="/" class="trust-link">¿Aún tienes preguntas? Haz clic aquí</a>
       </div>
     </div>
     <div class="thankyou-badges mt-10">
@@ -303,6 +305,7 @@ export default function decorate(block) {
   const showThankYou = () => {
     inner.textContent = '';
     inner.append(buildThankYou());
+    if (getLanguage() !== 'es') applyLanguage(inner, getLanguage());
     inner.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
 
@@ -310,4 +313,13 @@ export default function decorate(block) {
 
   block.textContent = '';
   block.append(shell);
+
+  // translate the form (labels, placeholders, options) and any dynamically
+  // shown content (validation messages, thank-you view) to the active language
+  if (getLanguage() !== 'es') applyLanguage(shell, getLanguage());
+  document.addEventListener('languagechange', (e) => applyLanguage(shell, e.detail.lang));
+  // re-translate validation messages as they appear
+  shell.addEventListener('input', () => {
+    if (getLanguage() !== 'es') applyLanguage(shell, getLanguage());
+  });
 }

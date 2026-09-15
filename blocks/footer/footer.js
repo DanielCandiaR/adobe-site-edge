@@ -1,5 +1,6 @@
 import { getMetadata } from '../../scripts/aem.js';
 import { loadFragment } from '../fragment/fragment.js';
+import { getLanguage, applyLanguage } from '../../scripts/i18n.js';
 
 // Inline SVG icons matching the source site (Ant Design icons)
 const ICONS = {
@@ -89,4 +90,8 @@ export default async function decorate(block) {
   }
 
   block.append(footer);
+
+  // translate the footer to the active language and keep it in sync
+  if (getLanguage() !== 'es') applyLanguage(footer, getLanguage());
+  document.addEventListener('languagechange', (e) => applyLanguage(footer, e.detail.lang));
 }

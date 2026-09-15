@@ -11,6 +11,7 @@ import {
   loadCSS,
   buildBlock,
 } from './aem.js';
+import { initI18n, applyLanguage, getLanguage } from './i18n.js';
 
 if (window.trustedTypes && window.trustedTypes.createPolicy) {
   const innerTT = window.trustedTypes.createPolicy('tt-inner', {
@@ -243,11 +244,14 @@ export function decorateMain(main) {
  * @param {Element} doc The container element
  */
 async function loadEager(doc) {
-  document.documentElement.lang = 'en';
+  initI18n();
   decorateTemplateAndTheme();
   const main = doc.querySelector('main');
   if (main) {
     decorateMain(main);
+    // translate the first (LCP) section as soon as it is decorated so the
+    // chosen language is visible immediately, before lazy content loads
+    if (getLanguage() !== 'es') applyLanguage(main, getLanguage());
     document.body.classList.add('appear');
     await loadSection(main.querySelector('.section'), waitForFirstImage);
   }
@@ -281,6 +285,10 @@ async function loadLazy(doc) {
   loadCSS(`${window.hlx.codeBasePath}/styles/lazy-styles.css`);
   loadCSS(`${window.hlx.codeBasePath}/styles/spacing.css`);
   loadFonts();
+
+  // apply the persisted language across the whole page once header, footer and
+  // all sections are in the DOM (skips Spanish, which is the authored default)
+  if (getLanguage() !== 'es') applyLanguage(document.body, getLanguage());
 }
 
 /**

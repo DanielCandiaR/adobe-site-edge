@@ -567,6 +567,22 @@ header nav .nav-tools .nav-lang > ul > li a:hover {
   background: var(--pn-white-10);
 }
 
+/* currently selected language: highlighted + check mark on the right */
+header nav .nav-tools .nav-lang > ul > li a.active {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: var(--pn-white);
+  background: var(--pn-white-05);
+}
+
+header nav .nav-tools .nav-lang > ul > li a.active::after {
+  content: '✓';
+  margin-left: 12px;
+  color: var(--pn-primary-blue);
+  font-size: 12px;
+}
+
 /* CTA button */
 header nav .nav-tools .nav-cta a {
   display: inline-flex;

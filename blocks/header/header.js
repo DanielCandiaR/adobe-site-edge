@@ -1,5 +1,8 @@
 import { getMetadata } from '../../scripts/aem.js';
 import { loadFragment } from '../fragment/fragment.js';
+import {
+  getLanguage, setLanguage, applyLanguage, SUPPORTED_LANGUAGES,
+} from '../../scripts/i18n.js';
 
 // media query match that indicates mobile/tablet width
 const isDesktop = window.matchMedia('(min-width: 768px)');
@@ -54,31 +57,44 @@ function toggleMenu(nav, forceExpanded = null) {
  * @param {Element} nav the nav element
  */
 function wireDropdown(drop, nav) {
-  // click toggles (works on desktop + mobile accordion)
+  const submenu = drop.querySelector(':scope > ul');
+  // is the click target one of the submenu options (not the trigger row)?
+  const isOptionClick = (e) => submenu && submenu.contains(e.target);
+
+  // click toggles. On desktop a physical click is preceded by `mouseenter`
+  // (which opens the menu), so a naive toggle would immediately re-close it —
+  // making the trigger un-clickable for mouse users. We therefore compare the
+  // pre-hover state cached on `mouseenter` rather than the live attribute.
   drop.addEventListener('click', (e) => {
-    // only toggle when clicking the trigger row itself, not a submenu link
-    if (e.target.closest('ul ul a')) return;
-    const isOpen = drop.getAttribute('aria-expanded') === 'true';
+    if (isOptionClick(e)) return; // let option handlers run; don't toggle
+    const wasOpen = drop.dataset.openBeforeHover === 'true';
     if (isDesktop.matches) closeAllDropdowns(nav);
-    drop.setAttribute('aria-expanded', isOpen ? 'false' : 'true');
+    drop.setAttribute('aria-expanded', wasOpen ? 'false' : 'true');
+    delete drop.dataset.openBeforeHover;
   });
   drop.addEventListener('keydown', (e) => {
     if (e.code === 'Enter' || e.code === 'Space') {
+      if (isOptionClick(e)) return;
       e.preventDefault();
       const isOpen = drop.getAttribute('aria-expanded') === 'true';
       if (isDesktop.matches) closeAllDropdowns(nav);
       drop.setAttribute('aria-expanded', isOpen ? 'false' : 'true');
     }
   });
-  // hover opens on desktop (matches source Ant Design behavior)
+  // hover opens on desktop (matches source Ant Design behavior). Remember
+  // whether it was already open so a following click toggles correctly.
   drop.addEventListener('mouseenter', () => {
     if (isDesktop.matches) {
+      drop.dataset.openBeforeHover = drop.getAttribute('aria-expanded') === 'true' ? 'true' : 'false';
       closeAllDropdowns(nav);
       drop.setAttribute('aria-expanded', 'true');
     }
   });
   drop.addEventListener('mouseleave', () => {
-    if (isDesktop.matches) drop.setAttribute('aria-expanded', 'false');
+    if (isDesktop.matches) {
+      drop.setAttribute('aria-expanded', 'false');
+      delete drop.dataset.openBeforeHover;
+    }
   });
 }
 
@@ -169,19 +185,54 @@ export default async function decorate(block) {
     toolItems.forEach((li) => {
       const submenu = li.querySelector('ul');
       if (submenu) {
-        // language dropdown: globe + label + arrow
+        // language dropdown: globe + current-language label + arrow
         li.classList.add('nav-lang');
         li.setAttribute('role', 'button');
         li.setAttribute('tabindex', '0');
         li.setAttribute('aria-expanded', 'false');
+        // replace the authored "ES" text node with a live label span
+        [...li.childNodes].forEach((node) => {
+          if (node === submenu) return;
+          if (node.nodeType === Node.TEXT_NODE) node.remove();
+        });
         const globe = document.createElement('span');
         globe.className = 'nav-lang-globe';
         globe.innerHTML = ICONS.global;
         li.insertBefore(globe, li.firstChild);
+        const label = document.createElement('span');
+        label.className = 'nav-lang-label';
+        label.textContent = getLanguage().toUpperCase();
+        globe.after(label);
         const arrow = document.createElement('span');
         arrow.className = 'nav-drop-arrow';
         arrow.innerHTML = ICONS.down;
         li.insertBefore(arrow, submenu);
+        // wire each option to switch the language + mark the active one.
+        // Options are authored as links to #es / #en (fall back to matching
+        // the visible label against the supported list).
+        submenu.querySelectorAll('a').forEach((a) => {
+          const href = a.getAttribute('href') || '';
+          let code = href.startsWith('#') ? href.slice(1).toLowerCase() : '';
+          if (!SUPPORTED_LANGUAGES.some((l) => l.code === code)) {
+            const match = SUPPORTED_LANGUAGES.find(
+              (l) => l.label.toLowerCase() === a.textContent.trim().toLowerCase(),
+            );
+            code = match ? match.code : '';
+          }
+          if (!code) return;
+          a.dataset.lang = code;
+          if (code === getLanguage()) a.classList.add('active');
+          a.addEventListener('click', (e) => {
+            e.preventDefault();
+            // stop the click from bubbling to the dropdown trigger (the parent
+            // li), which would otherwise re-toggle it and swallow the change
+            e.stopPropagation();
+            setLanguage(code);
+            label.textContent = code.toUpperCase();
+            submenu.querySelectorAll('a').forEach((opt) => opt.classList.toggle('active', opt.dataset.lang === code));
+            li.setAttribute('aria-expanded', 'false');
+          });
+        });
         wireDropdown(li, nav);
       } else {
         // CTA button — wrap label text and prepend calendar icon so the
@@ -267,4 +318,14 @@ export default async function decorate(block) {
   navWrapper.className = 'nav-wrapper';
   navWrapper.append(nav);
   block.append(navWrapper);
+
+  // translate the header to the active language and keep it in sync when the
+  // language changes elsewhere. The nav-lang label/options manage themselves,
+  // so the rest of the nav (links, CTA) is what gets (re)translated here.
+  if (getLanguage() !== 'es') applyLanguage(nav, getLanguage());
+  document.addEventListener('languagechange', (e) => {
+    applyLanguage(nav, e.detail.lang);
+    const label = nav.querySelector('.nav-lang-label');
+    if (label) label.textContent = e.detail.lang.toUpperCase();
+  });
 }
