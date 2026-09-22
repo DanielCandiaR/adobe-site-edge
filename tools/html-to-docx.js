@@ -16,14 +16,57 @@
 const fs = require('fs');
 const path = require('path');
 const { parseHTML } = require('linkedom');
+const sharp = require('sharp');
 const {
   Document, Packer, Paragraph, TextRun, HeadingLevel,
   Table, TableRow, TableCell, WidthType, ExternalHyperlink, BorderStyle,
+  ImageRun,
 } = require('docx');
 
 const REPO = path.resolve(__dirname, '..');
 const CONTENT_DIR = path.join(REPO, 'content');
 const OUT_DIR = path.join(REPO, process.argv[2] || 'drive-docs');
+// folder holding the pre-downloaded/converted PNGs for every image src
+const IMG_DIR = process.env.DOC_IMG_DIR || '/tmp/docimg';
+// max width (px) an embedded image is scaled to inside the document
+const MAX_IMG_WIDTH = 450;
+// cache of local image path -> { width, height }, filled before rendering
+const IMAGE_CACHE = new Map();
+
+/**
+ * Maps an HTML image `src` to the local PNG file prepared in IMG_DIR.
+ *  - external S3 assets: ".../assets/NAME.png"  -> "assets_NAME.png"
+ *  - external blog logo:  ".../blog/logo.png"    -> "blog_logo.png"
+ *  - local project image: "images/NAME.svg|avif" -> "local_NAME.png"
+ * Returns the absolute path or null when no local copy exists.
+ */
+function resolveImage(src) {
+  if (!src) return null;
+  let name = null;
+  const assets = src.match(/\/assets\/([^/?#]+)\.(png|jpg|jpeg)/i);
+  if (assets) name = `assets_${assets[1]}.png`;
+  else if (/\/blog\/logo\.png/i.test(src)) name = 'blog_logo.png';
+  else {
+    const local = src.match(/images\/([^/?#]+)\.(svg|avif|png|jpg|jpeg)/i);
+    if (local) name = `local_${local[1]}.png`;
+  }
+  if (!name) return null;
+  const full = path.join(IMG_DIR, name);
+  return fs.existsSync(full) ? full : null;
+}
+
+/** Builds a docx ImageRun for a local PNG, scaled to fit MAX_IMG_WIDTH. */
+function imageRun(filePath, meta) {
+  const data = fs.readFileSync(filePath);
+  let { width, height } = meta;
+  if (width > MAX_IMG_WIDTH) {
+    height = Math.round((height * MAX_IMG_WIDTH) / width);
+    width = MAX_IMG_WIDTH;
+  }
+  return new ImageRun({
+    type: 'png', data, transformation: { width, height },
+  });
+}
 
 /** "cards-benefits" -> "Cards Benefits" */
 function titleCase(slug) {
@@ -68,18 +111,35 @@ function inlineRuns(node) {
     const tag = child.tagName;
     if (tag === 'A') {
       const href = child.getAttribute('href') || '';
-      runs.push(new ExternalHyperlink({
-        link: href,
-        children: [new TextRun({ text: child.textContent.trim(), style: 'Hyperlink' })],
-      }));
+      const img = child.querySelector('img'); // also finds img inside <picture>
+      const local = img ? resolveImage(img.getAttribute('src') || '') : null;
+      const meta = local ? IMAGE_CACHE.get(local) : null;
+      if (local && meta) {
+        // a linked image: embed the image itself (drop the link wrapper)
+        runs.push(imageRun(local, meta));
+      } else {
+        runs.push(new ExternalHyperlink({
+          link: href,
+          children: [new TextRun({ text: child.textContent.trim(), style: 'Hyperlink' })],
+        }));
+      }
     } else if (tag === 'STRONG' || tag === 'B') {
       runs.push(new TextRun({ text: child.textContent, bold: true }));
     } else if (tag === 'EM' || tag === 'I') {
       runs.push(new TextRun({ text: child.textContent, italics: true }));
-    } else if (tag === 'IMG') {
-      const src = child.getAttribute('src') || '';
-      const alt = child.getAttribute('alt') || '';
-      runs.push(new TextRun({ text: `[imagen: ${alt || 'sin alt'} — ${src}]`, italics: true }));
+    } else if (tag === 'IMG' || tag === 'PICTURE') {
+      // <picture> wraps an <img>; resolve to that inner image
+      const img = tag === 'PICTURE' ? child.querySelector('img') : child;
+      const src = img ? img.getAttribute('src') || '' : '';
+      const alt = img ? img.getAttribute('alt') || '' : '';
+      const local = resolveImage(src);
+      const meta = local ? IMAGE_CACHE.get(local) : null;
+      if (local && meta) {
+        runs.push(imageRun(local, meta));
+      } else {
+        // no local copy available — keep a readable reference
+        runs.push(new TextRun({ text: `[imagen: ${alt || 'sin alt'} — ${src}]`, italics: true }));
+      }
     } else if (tag === 'BR') {
       runs.push(new TextRun({ break: 1 }));
     } else {
@@ -213,7 +273,23 @@ function findPlainHtml(dir) {
   return results;
 }
 
+/** Reads dimensions of every PNG in IMG_DIR into IMAGE_CACHE. */
+async function loadImageMeta() {
+  if (!fs.existsSync(IMG_DIR)) {
+    process.stderr.write(`Aviso: no existe ${IMG_DIR}; las imágenes quedarán como texto.\n`);
+    return;
+  }
+  const pngs = fs.readdirSync(IMG_DIR).filter((f) => f.endsWith('.png'));
+  await Promise.all(pngs.map(async (f) => {
+    const full = path.join(IMG_DIR, f);
+    const { width, height } = await sharp(full).metadata();
+    IMAGE_CACHE.set(full, { width, height });
+  }));
+  process.stdout.write(`Imágenes cargadas: ${IMAGE_CACHE.size}\n`);
+}
+
 async function main() {
+  await loadImageMeta();
   const files = findPlainHtml(CONTENT_DIR);
   let count = 0;
   for (const file of files) {
