@@ -222,34 +222,50 @@ function cellContent(cell) {
   return out.length ? out : [new Paragraph('')];
 }
 
+// total usable content width in twips (dxa): Letter 8.5in - 1in margins each
+// side = 6.5in * 1440 = 9360
+const TABLE_WIDTH_DXA = 9360;
+
 /** Render a block div (`<div class="name"> rows... `) as a docx Table. */
 function renderBlock(blockDiv) {
   const name = blockName(blockDiv.classList);
+
+  // parse body rows first so we know the max column count for the block
+  const bodyRows = [...blockDiv.children].map((rowDiv) => {
+    const cells = [...rowDiv.children].filter((c) => c.tagName === 'DIV');
+    return cells.length ? cells : [rowDiv];
+  });
+  const maxCols = bodyRows.reduce((m, cells) => Math.max(m, cells.length), 1);
+  const colWidth = Math.floor(TABLE_WIDTH_DXA / maxCols);
+  const columnWidths = Array.from({ length: maxCols }, () => colWidth);
+
   const rows = [];
 
-  // header row: single cell with the block name
+  // header row: single cell spanning all columns with the block name
   rows.push(new TableRow({
     children: [new TableCell({
       borders: CELL_BORDER,
+      columnSpan: maxCols,
+      width: { size: TABLE_WIDTH_DXA, type: WidthType.DXA },
       children: [new Paragraph({ children: [new TextRun({ text: name, bold: true })] })],
     })],
   }));
 
   // body rows: each direct child div is a row; its child divs are cells
-  const bodyRows = [...blockDiv.children];
-  bodyRows.forEach((rowDiv) => {
-    const cells = [...rowDiv.children].filter((c) => c.tagName === 'DIV');
-    const cellNodes = cells.length ? cells : [rowDiv];
+  bodyRows.forEach((cellNodes) => {
     rows.push(new TableRow({
       children: cellNodes.map((c) => new TableCell({
         borders: CELL_BORDER,
+        width: { size: colWidth, type: WidthType.DXA },
         children: cellContent(c),
       })),
     }));
   });
 
   return new Table({
-    width: { size: 100, type: WidthType.PERCENTAGE },
+    width: { size: TABLE_WIDTH_DXA, type: WidthType.DXA },
+    columnWidths,
+    layout: 'fixed',
     rows,
   });
 }
