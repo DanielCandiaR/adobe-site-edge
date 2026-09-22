@@ -283,8 +283,17 @@ function htmlToDocxChildren(html) {
 
   sections.forEach((section, i) => {
     if (i > 0) {
-      // section separator
-      children.push(new Paragraph({ children: [new TextRun('---')] }));
+      // section separator — EDS expects a horizontal rule between sections,
+      // authored as an empty paragraph with a bottom border (Google Docs / DA
+      // turn this into the <hr> that splits sections). A literal "---" string
+      // is NOT recognized and leaves the whole doc as one section.
+      children.push(new Paragraph({
+        border: {
+          bottom: {
+            style: BorderStyle.SINGLE, size: 6, space: 1, color: '000000',
+          },
+        },
+      }));
     }
     [...section.children].forEach((node) => {
       if (node.tagName === 'DIV' && node.classList.length > 0) {
