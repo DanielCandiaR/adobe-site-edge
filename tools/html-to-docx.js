@@ -150,33 +150,53 @@ function inlineRuns(node) {
   return runs.length ? runs : [new TextRun('')];
 }
 
+/**
+ * Collects inline runs for an element but IGNORES nested lists, so a list
+ * item that contains a sub-menu contributes only its own label (e.g.
+ * "Adobe Partner"), not the flattened text of its children.
+ */
+function directInlineRuns(node) {
+  const clone = node.cloneNode(true);
+  [...clone.querySelectorAll('ul, ol')].forEach((l) => l.remove());
+  return inlineRuns(clone);
+}
+
+/** Renders a <ul>/<ol> (and its nested lists) as indented bullet paragraphs. */
+function renderList(listEl, out, level = 0) {
+  [...listEl.children].forEach((li) => {
+    if (li.tagName !== 'LI') return;
+    out.push(new Paragraph({ bullet: { level }, children: directInlineRuns(li) }));
+    // recurse into any nested lists as a deeper indent level
+    [...li.children].forEach((child) => {
+      if (child.tagName === 'UL' || child.tagName === 'OL') {
+        renderList(child, out, level + 1);
+      }
+    });
+  });
+}
+
 /** Render a single default-content element into one or more Paragraphs. */
 function renderDefaultElement(el, out) {
   const tag = el.tagName;
   if (HEADING_MAP[tag]) {
     out.push(new Paragraph({ heading: HEADING_MAP[tag], children: inlineRuns(el) }));
   } else if (tag === 'P') {
-    // a lone image paragraph
     out.push(new Paragraph({ children: inlineRuns(el) }));
   } else if (tag === 'UL' || tag === 'OL') {
-    [...el.children].forEach((li) => {
-      if (li.tagName !== 'LI') return;
-      // nested list handling: render the li's own text, then nested items
-      const nested = li.querySelector(':scope > ul, :scope > ol');
-      out.push(new Paragraph({
-        bullet: { level: 0 },
-        children: inlineRuns(li),
-      }));
-      if (nested) {
-        [...nested.children].forEach((sub) => {
-          if (sub.tagName !== 'LI') return;
-          out.push(new Paragraph({ bullet: { level: 1 }, children: inlineRuns(sub) }));
-        });
-      }
-    });
+    renderList(el, out, 0);
   } else if (tag === 'PICTURE') {
     const img = el.querySelector('img');
     if (img) out.push(new Paragraph({ children: inlineRuns(el) }));
+  } else if (tag === 'DIV') {
+    // recurse into wrapper divs so nested content (h1/p/ul inside a cell's
+    // inner div) is rendered structurally instead of flattened to plain text
+    const kids = [...el.children];
+    if (kids.length) {
+      kids.forEach((k) => renderDefaultElement(k, out));
+    } else {
+      const text = el.textContent.replace(/\s+/g, ' ').trim();
+      if (text) out.push(new Paragraph(text));
+    }
   } else {
     const text = el.textContent.replace(/\s+/g, ' ').trim();
     if (text) out.push(new Paragraph(text));
